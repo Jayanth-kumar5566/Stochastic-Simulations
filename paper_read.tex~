@@ -1,0 +1,25 @@
+\documentclass[14pt]{article}
+\usepackage{fullpage}
+\usepackage[affil-it]{authblk}
+\begin{document}
+\author{Jayanth Kumar N}
+\affil{Indian Institute of Science Education and Research, Pune}
+\title{\textbf{Readings on the papers}}
+\maketitle
+
+\section{What I need to do?}
+To create a SIR model of two cities with different $R_{0}$'s connected
+by a transport and figure out the $R_{0}$ of the new connected system.
+
+\begin{description}
+\item[From readings of paper I, Day I] \hfill \ The calculations of
+  individual city $R_{0}$ depends on the SIR model of the paticular
+  city, ie, It does not account for the transportation term or the
+  city is considered to be a closed system.
+
+
+
+
+\section{Modeling the Worldwide Spread of Pandemic
+Influenza: Baseline Case and Containment
+Interventions}

@@ -1,0 +1,55 @@
+\documentclass[14pt]{article}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage[affil-it]{authblk}
+\begin{document}
+\author{Jayanth Kumar N}
+\affil{Indian Institute of Science Education and Research, Pune}
+\title{\textbf{Readings on the papers}}
+\maketitle
+
+\section{What I need to do?}
+To create a SIR model of two cities with different $R_{0}$'s connected
+by a transport and figure out the $R_{0}$ of the new connected system.
+
+\begin{description}
+\item[From readings of paper I, Day I] \hfill \\ The calculations of
+  individual city $R_{0}$ depends on the SIR model of the paticular
+  city, ie, It does not account for the transportation term or the
+  city is considered to be a closed system.
+\item[Intrinsic $R_{0}$] \hfill \\ But the $R_{0}$ depends only on the
+  parameters $\alpha$ and $\beta$ which are dependent only on the
+  disease. So, How come the two cities can have different $R_{0}$ for
+  the same disease.
+  
+  \\ { \color{blue} Todo: Figure out $R_{0}$ is
+    defined and how do we calculate it for a model.}
+
+  
+\end{description}
+
+\section{Modeling the Worldwide Spread of Pandemic
+Influenza: Baseline Case and Containment
+Interventions}
+\begin{description}
+  \item[Meta population stochastic epidemic model] \hfill \\ This also
+    considers the airline flow travel.
+  \item[Network] Vertices are Cities and weighted edges represent the
+    rate of passenger flow. Each vertice with a weight representing
+    the population.
+  \item[The Model] \hfill \\ We use \textbf{SLIR} model.
+  \item[The Stochastic transport operator] \hfill \\ $\omega$ acts as
+    a coupling term between the equations.{\color{blue} To read about}
+  \item[Langevin formulation] {\color{blue} Todo}
+  \item[Discrete nature of Individuals] \hfill \\ They have used a
+    special type of calculation to account for the discreteness of the
+    Individuals.{\color{blue} To see Text S1 and figure out}
+\end{description}
+ \Large{\color{blue} Since $R_{0}$ is function of the disease
+    parameters, technically the $R_{0}$'s of all the cities must be
+    the same. Since $R_{0}$ doesn't depend on $\omega$. Here in this
+  paper we have different $R_{0}$'s due to seasonality changes.ie,
+  their transmission coefficient $\beta$ is different due to
+  seasons.Should we also consider giving different $\beta$ values to
+  different cities to create cities with different $\R_{0}$'s?}
+\end{document}
