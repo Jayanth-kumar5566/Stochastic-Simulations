@@ -220,7 +220,7 @@ def st_sim():
 
     print 'Number of events = ',count
     #-------------------------------------------#
-    fig,ax = plt.subplots(2,sharex=True)
+    '''fig,ax = plt.subplots(2,sharex=True)
     ax[0].plot(TVal,S1Val,'b-',label='S1')
     ax[0].plot(TVal,I1Val,'r-',label='I1')
     ax[0].plot(TVal,R1Val,'g-',label='R1')
@@ -229,7 +229,7 @@ def st_sim():
     ax[1].plot(TVal,R2Val,'g-',label='R2')
     ax[1].set_xlabel('time')
     ax[1].legend(loc='best')
-    #plt.show()    
+    plt.show()'''    
 
 
     # In[13]:
@@ -254,7 +254,7 @@ t1ser=Series(data=ss[0])
 t2ser=Series(data=ss[1])
 tot=Series(data=ss[2])
 count = 0
-while count <= 1000:
+while count <= 10:
     z=st_sim()
     t1ser += Series(data=z[0])
     t2ser += Series(data=z[1])
@@ -276,7 +276,7 @@ import r0
 # In[15]:
 
 #Averages over all windows 2,3,4,5
-def r_o_t(series):
+def r_o_t(series,gamma2):
     r_x=[]
     #c_c=[]
     for i in [2,3,4,5]: #window moving average sizes
@@ -303,8 +303,8 @@ def r_o_t(series):
 
 
 # In[16]:
-
-z=(r_o_t(t1ser),r_o_t(t2ser),r_o_t(tot))
+gamma2=0.02
+z=(r_o_t(t1ser,gamma2),r_o_t(t2ser,gamma2),r_o_t(tot,gamma2))
 #r_o_t(tot)
 print z
 
