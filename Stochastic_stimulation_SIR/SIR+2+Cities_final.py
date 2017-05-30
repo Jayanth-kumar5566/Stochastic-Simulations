@@ -74,6 +74,7 @@ import numpy
 import random 
 import matplotlib.pyplot as plt
 from pandas import Series
+import scipy.stats as ss
 
 # ## Fill up the parameters required for the simulation 
 
@@ -243,25 +244,133 @@ ax.legend(loc='best')
 plt.show()'''
 
 #=----------------------------------------------------------------------------------------------------------------------------------------------
+#-----------------------------Preprocessing----------------------------------------
+def preprocessing(ser):
+    if 0 in numpy.diff(ser):
+        x=numpy.diff(ser)
+        c=1
+        for i in x:
+            if i == 0:
+                c += 1
+            else:
+                break
+        return c
+    else:
+        return 0
 
-(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
+#--------------------------------------------------------------------------------------------------------------
+def finding_point(series,time,method='max'):
+    '''
+    Input 
+        Series: a numpy nD array
+        time  : numpy nD array with same shape as series
+    Returns
+       (start,stop): Indices for the start and stop for the series'''
 
-def finding_point(series,time):
     if 0 in series:
         print "Zero values present in the series, Please remove them and input the series"
+
     ser=numpy.log(series)
-    slop_num=numpy.diff(ser)
-    slop_den=numpy.diff(time)
-    slope=slop_num/slop_den
+    if method == "max":
+        b=numpy.argmax(ser)
+        return b
+    else:
+        slop_num=numpy.diff(ser)
+        slop_den=numpy.diff(time)
+        slope=slop_num/slop_den
+        for i in range(len(slope)-1):
+            if abs(slope[i]-slope[i+1])<=0.4 and abs(slope[i]-slope[i+1])!=0:
+                a=i+1
+                break
+        return a
 
+#---------------------Checking the split------------------------------
+'''
+(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
+x=int(finding_point(t1ser,tim,'max')/2)
+y=finding_point(t1ser,tim,'slope')
+plt.plot(tim,t1ser)
+plt.plot(tim[:x],t1ser[:x],'o')
+plt.show()
+'''
+#------------------------------------------------------------------------------------
+def avg_ser(series,time):
+    '''---------Input---------
+    series: Is a list of series(numpy nD array) that needs to be averaged the series must be split first
+    time: Time values of the events
+    -------------Returns------------------
+    avgeraged series: Numpy nD array'''
 
+    no_o_ser=len(series)
+    delta=numpy.mean(numpy.diff(time))
+    stop=min(map(len,series))
+    x_intrp=numpy.arange(0,stop,delta)
+    y_intrp=numpy.zeros(len(x_intrp))
+    for i in series:
+        y_intrp += numpy.interp(x_intrp,time[:len(i)],i)
+    avg= y_intrp/no_o_ser
+    return (avg,x_intrp)
+#-----------Checking Averge series--------------------------
+'''
+(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
+(t1ser_,t2ser_,tot_,tim)=st_sim(0.08,0.06)
+x=int(finding_point(t1ser,tim,'max')/2)
+x_=int(finding_point(t1ser_,tim,'max')/2)
+series=[t1ser[:x],t1ser_[:x_]]
+avg=avg_ser(series,tim)
+plt.plot(avg[1],avg[0])
+#plt.plot(tim[:x],t1ser[:x])
+plt.show()
+'''
+#-------------------------------------------------------------------------------
 
+#----------------Fitting the slope---------------------------------------------
+def fit(series,time):
+    '''
+    Input:
+         series: Is a numpy nD array
+         time  : Is a numpy nD array same shape as series
+    Returns:
+         slope: The value of slope based on linear regression'''
 
+    cor=[0,1]
+    p=[0,1]
+    
+    x=cor[-1]
+    y=cor[-2]
 
+    ind=len(series)
 
+    while abs(x-y) < 0.01:
+        (p_r,p_p)=ss.pearsonr(time[:ind],series[:ind])
+        numpy.append(cor,p_r)
+        numpy.append(p,p_p)
+        ind -= 1
 
+    time=time[:ind]
+    series=series[:ind]
+    A=numpy.vstack([time,numpy.ones(len(time))]).T
+    slop,lamb=numpy.linalg.lstsq(A,series)[0]
+    return (slop,lamb)
 
-#-------------------------------------------------------------------------------------------------------------------------------------------------
+#------------------------Checking the fit code--------------------------------------
+'''
+(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
+y=preprocessing(t1ser)
+plt.plot(tim,t1ser)
+x=finding_point(t1ser,tim,'max')
+t1ser=t1ser[y:x]
+time=tim[y:x]
+s=fit(t1ser,time)
+plt.plot(time,t1ser,'o')
+def y(x,slope,lamb):
+    return slope*x+lamb
+plt.plot(time,y(time,s[0],s[1]))
+print s[0]
+plt.show()
+'''
+
+#----------------------------------------------------------------------------------------
 '''
 # In[14]:
 
