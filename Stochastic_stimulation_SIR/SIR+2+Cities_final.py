@@ -78,15 +78,15 @@ from pandas import Series
 # ## Fill up the parameters required for the simulation 
 
 
-def st_sim():
+def st_sim(beta1,beta2):
 
     # Intial values:
 
     N1 = 80
     N2 = 80
     mu = 0
-    beta1 = 2
-    beta2 = 2
+    #beta1 = 2
+    #beta2 = 2
     gamma1 = 0.02
     gamma2 = gamma1
     omega = 0
@@ -248,23 +248,7 @@ ax.plot(numpy.log(tot),label='Total')
 ax.legend(loc='best')
 plt.show()'''
 
-#-----------------------------------------------------Averaging over a lot of simulations---------------------------------------------
-ss=st_sim()
-t1ser=Series(data=ss[0])
-t2ser=Series(data=ss[1])
-tot=Series(data=ss[2])
-count = 0
-while count <= 10:
-    z=st_sim()
-    t1ser += Series(data=z[0])
-    t2ser += Series(data=z[1])
-    tot   += Series(data=z[2])
-    count += 1
 
-plt.plot(t1ser)
-plt.plot(t2ser)
-plt.plot(tot)
-plt.show()
 #=----------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -281,12 +265,12 @@ def r_o_t(series,gamma2):
     #c_c=[]
     for i in [2,3,4,5]: #window moving average sizes
         (r,cor,p)=r0.r0(series,i,gamma2)
-        fig,ax = plt.subplots(1,2,sharey=True)
-        ax[0].plot(cor,r,'-o',label=str(i))
-        ax[1].plot(p,r,'-o',label=str(i))
-        ax[0].set_ylabel("Ro value")
-        ax[0].set_xlabel("Correlation Coefficient")
-        ax[1].set_xlabel("P value")
+        #fig,ax = plt.subplots(1,2,sharey=True)
+        #ax[0].plot(cor,r,'-o',label=str(i))
+        #ax[1].plot(p,r,'-o',label=str(i))
+        #ax[0].set_ylabel("Ro value")
+        #ax[0].set_xlabel("Correlation Coefficient")
+        #ax[1].set_xlabel("P value")
         #------------Choosing the appropriate r value----------------------
         p=numpy.array(p)
         cor=numpy.array(cor)
@@ -296,21 +280,11 @@ def r_o_t(series,gamma2):
         new_metr=cor_nor+p_nor
         ind=numpy.nanargmax(new_metr)
         r_x.append(r[ind])
-        ax[1].legend(loc='best')
-    plt.plot()
+        #ax[1].legend(loc='best')
+    #plt.plot()
     print r_x
     return numpy.nanmean(r_x)
 
-
-# In[16]:
-gamma2=0.02
-z=(r_o_t(t1ser,gamma2),r_o_t(t2ser,gamma2),r_o_t(tot,gamma2))
-#r_o_t(tot)
-print z
-
-
-
-'''
 
 # In[25]:
 
@@ -321,7 +295,6 @@ def Max(z):
 def X(z):
     return abs(z[0]-z[1])
 
-
 # In[26]:
 
 me=[]
@@ -329,22 +302,51 @@ ma=[]
 Xax=[]
 y=[]
 
+# In[16]:
 
-# In[146]:
+#-----------------------------------------------------Averaging over a lot of simulations---------------------------------------------
+for beta2 in [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
+    beta1=0.2
+    ss=st_sim(beta1,beta2)
+    t1ser=Series(data=ss[0])
+    t2ser=Series(data=ss[1])
+    tot=Series(data=ss[2])
+    count = 0
+    while count <= 10:
+        z=st_sim(beta1,beta2)
+        t1ser += Series(data=z[0])
+        t2ser += Series(data=z[1])
+        tot   += Series(data=z[2])
+        count += 1
+    '''
+    #----------To check the averaging of the series-----------------------
+    plt.plot(t1ser)
+    plt.plot(t2ser)
+    plt.plot(tot)
+    plt.show()
+    #----------------------------------------------------------------------------
+    '''
+    gamma2=0.02
+    z=(r_o_t(t1ser,gamma2),r_o_t(t2ser,gamma2),r_o_t(tot,gamma2))
+    #r_o_t(tot)
+    print z
 
-me.append(Mean(z))
-ma.append(Max(z))
-Xax.append(X(z))
-y.append(z[2])
-
-
+    me.append(Mean(z))
+    ma.append(Max(z))
+    Xax.append(X(z))
+    y.append(z[2])
+    
 # In[147]:
 
-plt.plot(Xax,y,'bo')
-plt.plot(Xax,me,'go')
-plt.plot(Xax,ma,'ro')
+plt.plot(Xax,y,'bo',label='actual total0')
+plt.plot(Xax,me,'go',label='mean of ro')
+plt.plot(Xax,ma,'ro',label='max of the ro')
+plt.legend(loc='best')
+plt.show()
 
 
+
+'''
 # # Calculating $R_{0}$ more into version(Not to run, unless you know what u are doing)
 
 # In[28]:
@@ -392,17 +394,6 @@ print numpy.nanmean(b)
 
 b=numpy.array(b)
 plt.hist(b[~numpy.isnan(b)])
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
-
-
-
 
 
 '''
