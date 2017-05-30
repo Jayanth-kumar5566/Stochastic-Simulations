@@ -67,144 +67,58 @@
 
 # # Simulating the above the Model
 
-# In[1]:
+# Importing the Necessary modules:
 
 from __future__ import division
 import numpy
 import random 
 import matplotlib.pyplot as plt
-get_ipython().magic(u'matplotlib inline')
-
+from pandas import Series
 
 # ## Fill up the parameters required for the simulation 
 
-# In[9]:
 
-N1 = 80
-N2 = 80
-mu = 0
-beta1 = 2
-beta2 = 2
-gamma1 = 0.02
-gamma2 = gamma1
-omega = 0
-tr12 = 0
-tr21 = 0
-tmax = 100
-alpha = 0
+def st_sim():
+
+    # Intial values:
+
+    N1 = 80
+    N2 = 80
+    mu = 0
+    beta1 = 2
+    beta2 = 2
+    gamma1 = 0.02
+    gamma2 = gamma1
+    omega = 0
+    tr12 = 0
+    tr21 = 0
+    tmax = 100
+    alpha = 0
 
 
-# In[12]:
+    # In[12]:
 
-MAX=int(1e6)
-TVal=numpy.zeros(MAX,dtype=float)
-S1Val=numpy.zeros(MAX,dtype=int)
-I1Val=numpy.zeros(MAX,dtype=int)
-R1Val=numpy.zeros(MAX,dtype=int)
-S2Val=numpy.zeros(MAX,dtype=int)
-I2Val=numpy.zeros(MAX,dtype=int)
-R2Val=numpy.zeros(MAX,dtype=int)
+    MAX=int(1e6)
+    TVal=numpy.zeros(MAX,dtype=float)
+    S1Val=numpy.zeros(MAX,dtype=int)
+    I1Val=numpy.zeros(MAX,dtype=int)
+    R1Val=numpy.zeros(MAX,dtype=int)
+    S2Val=numpy.zeros(MAX,dtype=int)
+    I2Val=numpy.zeros(MAX,dtype=int)
+    R2Val=numpy.zeros(MAX,dtype=int)
 
-'''print "Ro of city1", beta1/gamma1
-print "Ro of city2", beta2/gamma2
-avgbeta=numpy.average([beta1,beta2])
-print "Combined Ro using the hypothesised formula", avgbeta/gamma1*(1-numpy.var([beta1,beta2])) '''
 
-#------------Initial Values-----------------------
-count = 0
-t = 0
+    #------------Initial Values-----------------------
+    count = 0
+    t = 0
 
-I1    = 1
-R1    = 0
-S1    = N1-I1
-I2    = 1
-R2    = 0
-S2    = N2
+    I1    = 1
+    R1    = 0
+    S1    = N1-I1
+    I2    = 1
+    R2    = 0
+    S2    = N2
 
-TVal[count]=t
-S1Val[count]=S1
-I1Val[count]=I1
-R1Val[count]=R1
-S2Val[count]=S2
-I2Val[count]=I2
-R2Val[count]=R2
-
-while count < MAX and t < tmax and I1>=0 and I2>=0:
-    Rate_S12I1 = beta1*S1*(I1+tr21*I2)+alpha*S1 
-    Rate_I12R1 = gamma1*(I1+tr21*I2) 
-    Rate_S22I2 = beta2*S2*(I2+tr12*I1)+alpha*S2
-    Rate_I22R2 = gamma2*(I1+tr12*I1)
-    Rate_S22S1 = tr21*S2
-    Rate_I22I1 = tr21*I2
-    Rate_R22R1 = tr21*R2
-    Rate_S12S2 = tr12*S1
-    Rate_I12I2 = tr12*I1
-    Rate_R12R2 = tr12*R1
-    Birth_1    = mu*(S1+I1+R1)
-    Birth_2    = mu*(S2+I2+R2)
-    Death_S1   = mu*S1
-    Death_S2   = mu*S2
-    Death_I1   = (mu+omega)*I1
-    Death_I2   = (mu+omega)*I2
-    Death_R1   = mu*R1
-    Death_R2   = mu*R2
-    
-    K  = Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1+Death_R2
-
-    
-    dt=-(1.0/K)*numpy.log(random.random())
-    
-    t = t + dt
-    count = count + 1
-    
-    r= random.random()*K
-    
-    if r < Rate_S12I1:
-        S1 -= 1
-        I1 += 1
-    elif r < Rate_S12I1+Rate_I12R1:
-        I1 -= 1
-        R1 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2:
-        S2 -= 1
-        I2 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2:
-        I2 -= 1
-        R2 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1:
-        S2 -= 1
-        S1 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1:
-        I2 -= 1
-        I1 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1:
-        R2 -= 1
-        R1 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2:
-        S1 -= 1
-        S2 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2:
-        I1 -= 1
-        I2 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2:
-        R1 -= 1
-        R2 += 1    
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1:
-        S1 += 1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2:
-        S2 +=1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1:
-        S1 -=1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2:
-        S2 -=1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1:
-        I1 -=1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2:
-        I2 -=1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1:
-        R1 -=1
-    elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1+Death_R2:
-        R2 -=1
     TVal[count]=t
     S1Val[count]=S1
     I1Val[count]=I1
@@ -212,39 +126,146 @@ while count < MAX and t < tmax and I1>=0 and I2>=0:
     S2Val[count]=S2
     I2Val[count]=I2
     R2Val[count]=R2
-TVal=TVal[:count+1]
-S1Val=S1Val[:count+1]
-I1Val=I1Val[:count+1]
-R1Val=R1Val[:count+1]
-S2Val=S2Val[:count+1]
-I2Val=I2Val[:count+1]
-R2Val=R2Val[:count+1]
 
-print 'Number of events = ',count
-#-------------------------------------------#
-fig,ax = plt.subplots(2,sharex=True)
-ax[0].plot(TVal,S1Val,'b-',label='S1')
-ax[0].plot(TVal,I1Val,'r-',label='I1')
-ax[0].plot(TVal,R1Val,'g-',label='R1')
-ax[1].plot(TVal,S2Val,'b-',label='S2')
-ax[1].plot(TVal,I2Val,'r-',label='I2')
-ax[1].plot(TVal,R2Val,'g-',label='R2')
-ax[1].set_xlabel('time')
-ax[1].legend(loc='best')
-plt.show()    
+    while count < MAX and t < tmax and I1>=0 and I2>=0:
+        Rate_S12I1 = beta1*S1*(I1+tr21*I2)+alpha*S1 
+        Rate_I12R1 = gamma1*(I1+tr21*I2) 
+        Rate_S22I2 = beta2*S2*(I2+tr12*I1)+alpha*S2
+        Rate_I22R2 = gamma2*(I1+tr12*I1)
+        Rate_S22S1 = tr21*S2
+        Rate_I22I1 = tr21*I2
+        Rate_R22R1 = tr21*R2
+        Rate_S12S2 = tr12*S1
+        Rate_I12I2 = tr12*I1
+        Rate_R12R2 = tr12*R1
+        Birth_1    = mu*(S1+I1+R1)
+        Birth_2    = mu*(S2+I2+R2)
+        Death_S1   = mu*S1
+        Death_S2   = mu*S2
+        Death_I1   = (mu+omega)*I1
+        Death_I2   = (mu+omega)*I2
+        Death_R1   = mu*R1
+        Death_R2   = mu*R2
+
+        K  = Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1+Death_R2
 
 
-# In[13]:
+        dt=-(1.0/K)*numpy.log(random.random())
 
-t1ser=I1Val[:count]
-t2ser=I2Val[:count]
-tot=t1ser+t2ser
+        t = t + dt
+        count = count + 1
+
+        r= random.random()*K
+
+        if r < Rate_S12I1:
+            S1 -= 1
+            I1 += 1
+        elif r < Rate_S12I1+Rate_I12R1:
+            I1 -= 1
+            R1 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2:
+            S2 -= 1
+            I2 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2:
+            I2 -= 1
+            R2 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1:
+            S2 -= 1
+            S1 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1:
+            I2 -= 1
+            I1 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1:
+            R2 -= 1
+            R1 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2:
+            S1 -= 1
+            S2 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2:
+            I1 -= 1
+            I2 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2:
+            R1 -= 1
+            R2 += 1    
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1:
+            S1 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2:
+            S2 +=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1:
+            S1 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2:
+            S2 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1:
+            I1 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2:
+            I2 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1:
+            R1 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1+Death_R2:
+            R2 -=1
+        TVal[count]=t
+        S1Val[count]=S1
+        I1Val[count]=I1
+        R1Val[count]=R1
+        S2Val[count]=S2
+        I2Val[count]=I2
+        R2Val[count]=R2
+    TVal=TVal[:count+1]
+    S1Val=S1Val[:count+1]
+    I1Val=I1Val[:count+1]
+    R1Val=R1Val[:count+1]
+    S2Val=S2Val[:count+1]
+    I2Val=I2Val[:count+1]
+    R2Val=R2Val[:count+1]
+
+    print 'Number of events = ',count
+    #-------------------------------------------#
+    fig,ax = plt.subplots(2,sharex=True)
+    ax[0].plot(TVal,S1Val,'b-',label='S1')
+    ax[0].plot(TVal,I1Val,'r-',label='I1')
+    ax[0].plot(TVal,R1Val,'g-',label='R1')
+    ax[1].plot(TVal,S2Val,'b-',label='S2')
+    ax[1].plot(TVal,I2Val,'r-',label='I2')
+    ax[1].plot(TVal,R2Val,'g-',label='R2')
+    ax[1].set_xlabel('time')
+    ax[1].legend(loc='best')
+    #plt.show()    
+
+
+    # In[13]:
+
+    t1ser=I1Val[:count]
+    t2ser=I2Val[:count]
+    tot=t1ser+t2ser
+
+    return (t1ser,t2ser,tot)
+
+'''
 fig,ax = plt.subplots()
 ax.plot(numpy.log(t1ser),label='T1')
 ax.plot(numpy.log(t2ser),label='T2')
 ax.plot(numpy.log(tot),label='Total')
 ax.legend(loc='best')
+plt.show()'''
+
+#-----------------------------------------------------Averaging over a lot of simulations---------------------------------------------
+ss=st_sim()
+t1ser=ss[0]
+t2ser=ss[1]
+tot=ss[2]
+count = 0
+while count <= 1000:
+    z=st_sim()
+    t1ser += z[0]
+    t2ser += z[1]
+    tot   += z[2]
+    count += 1
+
+plt.plot(t1ser)
+plt.plot(t2ser)
+plt.plot(tot)
 plt.show()
+#=----------------------------------------------------------------------------------------------------------------------------------------------
 
 
 # In[14]:
@@ -288,13 +309,8 @@ z=(r_o_t(t1ser),r_o_t(t2ser),r_o_t(tot))
 print z
 
 
-# In[29]:
 
-plt.plot([30,40,50,60,70,80,90,100,110,120,130,140,150],t1,'b-o',label='series1')
-plt.plot([30,40,50,60,70,80,90,100,110,120,130,140,150],t2,'g-*',label='series2')
-plt.plot([30,40,50,60,70,80,90,100,110,120,130,140,150],to,'y-^',label='total_series')
-plt.legend(loc='best')
-
+'''
 
 # In[25]:
 
@@ -388,7 +404,5 @@ plt.hist(b[~numpy.isnan(b)])
 
 
 
-# In[ ]:
 
-
-
+'''
