@@ -250,15 +250,15 @@ plt.show()'''
 
 #-----------------------------------------------------Averaging over a lot of simulations---------------------------------------------
 ss=st_sim()
-t1ser=ss[0]
-t2ser=ss[1]
-tot=ss[2]
+t1ser=Series(data=ss[0])
+t2ser=Series(data=ss[1])
+tot=Series(data=ss[2])
 count = 0
 while count <= 1000:
     z=st_sim()
-    t1ser += z[0]
-    t2ser += z[1]
-    tot   += z[2]
+    t1ser += Series(data=z[0])
+    t2ser += Series(data=z[1])
+    tot   += Series(data=z[2])
     count += 1
 
 plt.plot(t1ser)
