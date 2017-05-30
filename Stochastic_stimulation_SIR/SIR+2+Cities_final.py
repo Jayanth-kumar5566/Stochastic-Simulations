@@ -82,18 +82,18 @@ def st_sim(beta1,beta2):
 
     # Intial values:
 
-    N1 = 80
-    N2 = 80
+    N1 = 800
+    N2 = 800
     mu = 0
     #beta1 = 2
     #beta2 = 2
     gamma1 = 0.02
     gamma2 = gamma1
-    omega = 0
-    tr12 = 0
+    omega = 0.01
+    tr12 = 0.01
     tr21 = 0
     tmax = 100
-    alpha = 0
+    alpha = 0.0001
 
 
     # In[12]:
@@ -231,14 +231,8 @@ def st_sim(beta1,beta2):
     ax[1].legend(loc='best')
     plt.show()'''    
 
-
-    # In[13]:
-
-    t1ser=I1Val[:count]
-    t2ser=I2Val[:count]
-    tot=t1ser+t2ser
-
-    return (t1ser,t2ser,tot)
+    tot=I1Val+I2Val
+    return (I1Val,I2Val,tot,TVal)
 
 '''
 fig,ax = plt.subplots()
@@ -248,10 +242,27 @@ ax.plot(numpy.log(tot),label='Total')
 ax.legend(loc='best')
 plt.show()'''
 
-
 #=----------------------------------------------------------------------------------------------------------------------------------------------
 
+(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
 
+def finding_point(series,time):
+    if 0 in series:
+        print "Zero values present in the series, Please remove them and input the series"
+    ser=numpy.log(series)
+    slop_num=numpy.diff(ser)
+    slop_den=numpy.diff(time)
+    slope=slop_num/slop_den
+
+
+
+
+
+
+
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------
+'''
 # In[14]:
 
 import r0
@@ -349,7 +360,7 @@ plt.plot(Xax,mi,'ko',label='min of the ro')
 plt.legend(loc='best')
 plt.show()
 
-
+'''
 
 '''
 # # Calculating $R_{0}$ more into version(Not to run, unless you know what u are doing)
