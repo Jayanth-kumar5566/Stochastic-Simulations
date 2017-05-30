@@ -20,7 +20,7 @@ def r0(t1ser,window_mv_avg,gamma):#,parts=30):
 	X_=ts.to_dict().values()
 	ind=X_.index(numpy.nanmax(X_))+1
 	length_of_window=ind	
-	print "Choose your parts based on this", length_of_window
+	#print "Choose your parts based on this", length_of_window
 	x=0
 	parts=int(ind/2)
 	while x+parts<=length_of_window :
@@ -38,9 +38,10 @@ def r0(t1ser,window_mv_avg,gamma):#,parts=30):
 		tau=1/gamma
 		ro= 1+slop*tau
 		r.append(ro)
-		plt.plot(X,Y)
-		plt.plot(X,y_n(X))
-		plt.show()
+		''' #------Plotting to check the fitting-----------------
+		plt.plot(X,Y,'o')
+		plt.plot(X,map(y_n,X,[slop]*len(X),[lamb]*len(X)))
+		plt.show()'''
 	#fig,ax = plt.subplots(1,2,sharey=True)
 	#ax[0].plot(cor,r)
 	#ax[1].plot(p,r)

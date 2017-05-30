@@ -218,7 +218,7 @@ def st_sim(beta1,beta2):
     I2Val=I2Val[:count+1]
     R2Val=R2Val[:count+1]
 
-    print 'Number of events = ',count
+    #print 'Number of events = ',count
     #-------------------------------------------#
     '''fig,ax = plt.subplots(2,sharex=True)
     ax[0].plot(TVal,S1Val,'b-',label='S1')
@@ -282,7 +282,7 @@ def r_o_t(series,gamma2):
         r_x.append(r[ind])
         #ax[1].legend(loc='best')
     #plt.plot()
-    print r_x
+    #print r_x
     return numpy.nanmean(r_x)
 
 
@@ -292,6 +292,8 @@ def Mean(z):
     return (z[0]+z[1])/2
 def Max(z):
     return max(z[0],z[1])
+def Min(z):
+    return min(z[0],z[1])
 def X(z):
     return abs(z[0]-z[1])
 
@@ -299,6 +301,7 @@ def X(z):
 
 me=[]
 ma=[]
+mi=[]
 Xax=[]
 y=[]
 
@@ -333,6 +336,7 @@ for beta2 in [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]:
 
     me.append(Mean(z))
     ma.append(Max(z))
+    mi.append(Min(z))
     Xax.append(X(z))
     y.append(z[2])
     
@@ -341,6 +345,7 @@ for beta2 in [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]:
 plt.plot(Xax,y,'bo',label='actual total0')
 plt.plot(Xax,me,'go',label='mean of ro')
 plt.plot(Xax,ma,'ro',label='max of the ro')
+plt.plot(Xax,mi,'ko',label='min of the ro')
 plt.legend(loc='best')
 plt.show()
 
