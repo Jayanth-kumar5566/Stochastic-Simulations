@@ -318,14 +318,14 @@ for beta2 in [0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]:
         t2ser += Series(data=z[1])
         tot   += Series(data=z[2])
         count += 1
-    '''
+    
     #----------To check the averaging of the series-----------------------
     plt.plot(t1ser)
     plt.plot(t2ser)
     plt.plot(tot)
     plt.show()
     #----------------------------------------------------------------------------
-    '''
+    
     gamma2=0.02
     z=(r_o_t(t1ser,gamma2),r_o_t(t2ser,gamma2),r_o_t(tot,gamma2))
     #r_o_t(tot)

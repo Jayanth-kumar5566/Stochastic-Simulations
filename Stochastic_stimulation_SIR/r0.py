@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy
 import scipy.stats as ss
 from pandas import Series
+def y_n(x,slope,lamb):
+	return slope*x+lamb
 def r0(t1ser,window_mv_avg,gamma):#,parts=30):
 	''' t1ser: is a list of time series
 	    window: the time window for moving average
@@ -36,6 +38,9 @@ def r0(t1ser,window_mv_avg,gamma):#,parts=30):
 		tau=1/gamma
 		ro= 1+slop*tau
 		r.append(ro)
+		plt.plot(X,Y)
+		plt.plot(X,y_n(X))
+		plt.show()
 	#fig,ax = plt.subplots(1,2,sharey=True)
 	#ax[0].plot(cor,r)
 	#ax[1].plot(p,r)
