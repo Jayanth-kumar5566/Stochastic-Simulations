@@ -380,11 +380,8 @@ def y_sl(x,slope,lamb):
 (t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
 ser=t1ser
 tim=tim
-#print"length of the series", len(ser)
 y=preprocessing(ser)
-#print "Zeros continous first", y
 x=finding_point(ser,tim,'slope')
-#print "Cut point",x
 plt.plot(tim[:x],numpy.log(ser[:x]),'b-')
 ser=ser[y:x]
 time=tim[y:x]
