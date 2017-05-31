@@ -83,20 +83,20 @@ def st_sim(beta1,beta2):
 
     # Intial values:
 
-    N1 = 8000
-    N2 = 8000
+    N1 = 800
+    N2 = 800
     mu = 0
     #beta1 = 2
     #beta2 = 2
     gamma1 = 0.2
     gamma2 = gamma1
     omega = 0
-    tr12 = 0.1
-    tr21 = 0.1
+    tr12 = 0
+    tr21 = 0
     tmax = 100
-    alpha = 0.0001
-
-
+    alpha = 0
+    print "Ro of city 1 =", beta1/gamma1
+    print "Ro of city 2 =", beta2/gamma1
     # In[12]:
 
     MAX=int(1e6)
@@ -150,8 +150,7 @@ def st_sim(beta1,beta2):
 
         K  = Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1+Death_R2
 
-
-        dt=-(1.0/K)*numpy.log(random.random())
+        dt = -(1.0/K)*numpy.log(random.random())
 
         t = t + dt
         count = count + 1
@@ -221,7 +220,8 @@ def st_sim(beta1,beta2):
 
     #print 'Number of events = ',count
     #-------------------------------------------#
-    '''fig,ax = plt.subplots(2,sharex=True)
+    '''
+    fig,ax = plt.subplots(2,sharex=True)
     ax[0].plot(TVal,S1Val,'b-',label='S1')
     ax[0].plot(TVal,I1Val,'r-',label='I1')
     ax[0].plot(TVal,R1Val,'g-',label='R1')
@@ -246,6 +246,7 @@ plt.show()'''
 #=----------------------------------------------------------------------------------------------------------------------------------------------
 #-----------------------------Preprocessing----------------------------------------
 def preprocessing(ser):
+    '''
     if 0 in numpy.diff(ser):
         x=numpy.diff(ser)
         c=1
@@ -256,8 +257,9 @@ def preprocessing(ser):
                 break
         return c
     else:
-        return 0
-
+        return 0'''
+    y=numpy.where(numpy.diff(ser)>0)[0][0]+1
+    return y
 #--------------------------------------------------------------------------------------------------------------
 def finding_point(series,time,method='max'):
     '''
@@ -284,13 +286,27 @@ def finding_point(series,time,method='max'):
                 break
         return a
 
+'''
+def Derivative(TSER,T):
+    Diff = numpy.diff(TSER)
+    idx = numpy.nonzero(Diff)[0]
+    TSER = TSER[idx]
+    Diff = numpy.diff(TSER)
+    T    = T[idx]
+    fig,ax  = plt.subplots()
+    ax.plot(T[1:], Diff/numpy.diff(T),'-')
+    plt.show() 
+''' 
+
 #---------------------Checking the split------------------------------
 '''
 (t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
+#Derivative(t1ser,tim)
 x=int(finding_point(t1ser,tim,'max')/2)
-y=finding_point(t1ser,tim,'slope')
-plt.plot(tim,t1ser)
-plt.plot(tim[:x],t1ser[:x],'o')
+y=preprocessing(t1ser)
+plt.plot(tim,t1ser,'b-')
+plt.plot(tim[y:x],t1ser[y:x],'go')
+plt.yscale('log')
 plt.show()
 '''
 #------------------------------------------------------------------------------------
@@ -330,7 +346,7 @@ plt.show()
 def fit(series,time):
     '''
     Input:
-         series: Is a numpy nD array
+         series: Is a numpy nD array is converted into log
          time  : Is a numpy nD array same shape as series
     Returns:
          slope: The value of slope based on linear regression'''
@@ -341,6 +357,7 @@ def fit(series,time):
     x=cor[-1]
     y=cor[-2]
 
+    series=numpy.log(series)
     ind=len(series)
 
     while abs(x-y) < 0.01:
@@ -355,30 +372,31 @@ def fit(series,time):
     slop,lamb=numpy.linalg.lstsq(A,series)[0]
     return (slop,lamb)
 
+def y_sl(x,slope,lamb):
+    return slope*x+lamb
+
 #------------------------Checking the fit code--------------------------------------
-'''
-(t1ser,t2ser,tot,tim)=st_sim(0.1,0.01)
-ser=t2ser
-print"length of the series", len(ser)
+
+(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
+ser=t1ser
+tim=tim
+#print"length of the series", len(ser)
 y=preprocessing(ser)
-print "Zeros continous first", y
-plt.plot(tim,ser)
-x=finding_point(ser,tim,'max')
-print "Cut point",x
-plt.plot(tim,ser,'o')
+#print "Zeros continous first", y
+x=finding_point(ser,tim,'slope')
+#print "Cut point",x
+plt.plot(tim[:x],numpy.log(ser[:x]),'b-')
 ser=ser[y:x]
 time=tim[y:x]
 s=fit(ser,time)
-def y(x,slope,lamb):
-    return slope*x+lamb
-plt.plot(time,y(time,s[0],s[1]))
+plt.plot(time,y_sl(time,s[0],s[1]),'r-')
 print s[0]
 plt.show()
-'''
+
 #----------------------------------------------------------------------------------------
 #                            The Ro dependencies
-
-beta_values=[(0.1,0.8),(0.2,0.2),(0.4,0.9),(1,0.5)]
+'''
+beta_values=[(0.01,0.8),(0.02,0.2),(0.04,0.9),(1,0.5)]
 ro=[]
 for (i,j) in beta_values:
     (t1ser,t2ser,tot,tim)=st_sim(i,j)
@@ -390,14 +408,14 @@ for (i,j) in beta_values:
         k_ser=k[y:x]
         time=tim[y:x]
         s=fit(k_ser,time)
-        '''
+        ''''''
         if s[0] <0:
             plt.plot(time,k_ser)
             def y(x,slope,lamb):
                 return slope*x+lamb
             plt.plot(time,y(time,s[0],s[1]))
             plt.show()
-        '''
+        ''''''
         r.append(s[0])
     ro.append(r)
 
@@ -421,6 +439,47 @@ ax.set_ylabel('R0 of city 2')
 ax.set_zlabel('total R0')
 
 plt.show()
+'''
+
+#-----------------------------------------r0 value dependeces----------------------------------------
+'''
+def Mean(z):
+    return (z[0]+z[1])/2
+def Max(z):
+    return max(z[0],z[1])
+def Min(z):
+    return min(z[0],z[1])
+def X(z):
+    return abs(z[0]-z[1])
+
+me=[]
+ma=[]
+mi=[]
+Xax=[]
+y=[]
+
+for i in ro:
+    me.append(Mean(i))
+    ma.append(Max(i))
+    mi.append(Min(i))
+    Xax.append(X(i))
+y=z
+
+
+plt.plot(Xax,y,'bo',label='actual total0')
+plt.plot(Xax,me,'g*',label='mean of ro')
+plt.plot(Xax,ma,'r^',label='max of the ro')
+plt.plot(Xax,mi,'ko',label='min of the ro')
+plt.legend(loc='best')
+plt.show()
+'''
+#-----------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 #---------------------------------------------------------------------------------------
 '''
 # In[14]:
