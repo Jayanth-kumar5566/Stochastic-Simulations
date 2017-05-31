@@ -83,16 +83,16 @@ def st_sim(beta1,beta2):
 
     # Intial values:
 
-    N1 = 800
-    N2 = 800
+    N1 = 8000
+    N2 = 8000
     mu = 0
     #beta1 = 2
     #beta2 = 2
-    gamma1 = 0.02
+    gamma1 = 0.2
     gamma2 = gamma1
-    omega = 0.01
-    tr12 = 0.01
-    tr21 = 0
+    omega = 0
+    tr12 = 0.1
+    tr21 = 0.1
     tmax = 100
     alpha = 0.0001
 
@@ -268,11 +268,11 @@ def finding_point(series,time,method='max'):
        (start,stop): Indices for the start and stop for the series'''
 
     if 0 in series:
-        print "Zero values present in the series, Please remove them and input the series"
+        print "Zero values present in the series, Please use preprocesing to input the series. If already used please ignore"
 
     ser=numpy.log(series)
     if method == "max":
-        b=numpy.argmax(ser)
+        b=numpy.nanargmax(ser)
         return b
     else:
         slop_num=numpy.diff(ser)
@@ -304,7 +304,7 @@ def avg_ser(series,time):
     no_o_ser=len(series)
     delta=numpy.mean(numpy.diff(time))
     stop=min(map(len,series))
-    x_intrp=numpy.arange(0,stop,delta)
+    x_intrp=numpy.arange(0,stop+delta,delta)
     y_intrp=numpy.zeros(len(x_intrp))
     for i in series:
         y_intrp += numpy.interp(x_intrp,time[:len(i)],i)
@@ -312,14 +312,16 @@ def avg_ser(series,time):
     return (avg,x_intrp)
 #-----------Checking Averge series--------------------------
 '''
-(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
-(t1ser_,t2ser_,tot_,tim)=st_sim(0.08,0.06)
+(t1ser,t2ser,tot,tim)=st_sim(0.08,0.6)
+(t1ser_,t2ser_,tot_,tim)=st_sim(0.08,0.6)
 x=int(finding_point(t1ser,tim,'max')/2)
 x_=int(finding_point(t1ser_,tim,'max')/2)
+y=min(x,x_)
 series=[t1ser[:x],t1ser_[:x_]]
 avg=avg_ser(series,tim)
 plt.plot(avg[1],avg[0])
-#plt.plot(tim[:x],t1ser[:x])
+plt.plot(tim[:y],t1ser[:y],'yo')
+plt.plot(tim[:y],t1ser_[:y],'k*')
 plt.show()
 '''
 #-------------------------------------------------------------------------------
@@ -355,22 +357,71 @@ def fit(series,time):
 
 #------------------------Checking the fit code--------------------------------------
 '''
-(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
-y=preprocessing(t1ser)
-plt.plot(tim,t1ser)
-x=finding_point(t1ser,tim,'max')
-t1ser=t1ser[y:x]
+(t1ser,t2ser,tot,tim)=st_sim(0.1,0.01)
+ser=t2ser
+print"length of the series", len(ser)
+y=preprocessing(ser)
+print "Zeros continous first", y
+plt.plot(tim,ser)
+x=finding_point(ser,tim,'max')
+print "Cut point",x
+plt.plot(tim,ser,'o')
+ser=ser[y:x]
 time=tim[y:x]
-s=fit(t1ser,time)
-plt.plot(time,t1ser,'o')
+s=fit(ser,time)
 def y(x,slope,lamb):
     return slope*x+lamb
 plt.plot(time,y(time,s[0],s[1]))
 print s[0]
 plt.show()
 '''
-
 #----------------------------------------------------------------------------------------
+#                            The Ro dependencies
+
+beta_values=[(0.1,0.8),(0.2,0.2),(0.4,0.9),(1,0.5)]
+ro=[]
+for (i,j) in beta_values:
+    (t1ser,t2ser,tot,tim)=st_sim(i,j)
+    r=[]
+    for k in [t1ser,t2ser,tot]:
+        y=preprocessing(k)
+        x=finding_point(k,tim,'max')
+        x=int(x/2)
+        k_ser=k[y:x]
+        time=tim[y:x]
+        s=fit(k_ser,time)
+        '''
+        if s[0] <0:
+            plt.plot(time,k_ser)
+            def y(x,slope,lamb):
+                return slope*x+lamb
+            plt.plot(time,y(time,s[0],s[1]))
+            plt.show()
+        '''
+        r.append(s[0])
+    ro.append(r)
+
+from mpl_toolkits.mplot3d import Axes3D
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+x=[]
+y=[]
+z=[]
+
+for i in ro:
+    x.append(i[0])
+    y.append(i[1])
+    z.append(i[2])
+
+ax.scatter(x, y, z, c='r', marker='o')
+ax.set_xlabel('R0 of city 1')
+ax.set_ylabel('R0 of city 2')
+ax.set_zlabel('total R0')
+
+plt.show()
+#---------------------------------------------------------------------------------------
 '''
 # In[14]:
 
