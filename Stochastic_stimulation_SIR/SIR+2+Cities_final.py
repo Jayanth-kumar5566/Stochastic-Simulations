@@ -428,13 +428,15 @@ x=pandas.DataFrame(tim)
 x.to_csv("x.csv")
 y=pandas.DataFrame(t1ser)
 y.to_csv("y.csv")
-#plt.show()
 import os
 os.system("Rscript sigmoid_slope.R")
 file=open('tmp','r')
 a=file.readlines()
 sl=float(a[0].strip('\n'))
 print sl
+plt.plot(time,y_sl(time,sl,0),'k-')
+plt.show()
+
 #--------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------
