@@ -348,6 +348,7 @@ def fit(series,time):
     Input:
          series: Is a numpy nD array is converted into log
          time  : Is a numpy nD array same shape as series
+    Method: Uses correlation coefficient from the maxvalue and keeps on reducing the values 
     Returns:
          slope: The value of slope based on linear regression'''
 
@@ -375,8 +376,34 @@ def fit(series,time):
 def y_sl(x,slope,lamb):
     return slope*x+lamb
 
+def Fitt(series,time):
+    series=numpy.log(series)
+    x=0
+    parts=round(len(series)/10)
+    cor=[]
+    p  =[]
+    slop=[]
+    while x+parts<=len(series):
+        ser=series[x:x+parts]
+        tim=time[x:x+parts]
+        x += 1
+        A=numpy.vstack([tim,numpy.ones(len(tim))]).T
+        slope,inrp=numpy.linalg.lstsq(A,ser)[0]
+        slop.append(slope)
+        (p_r,p_p)=ss.pearsonr(tim,ser)
+        cor.append(p_r)
+        p.append(p_p)
+    p=numpy.array(p)
+    cor=numpy.array(cor)
+    p_new=1/p
+    p_nor=(p_new-numpy.nanmin(p_new))/(numpy.nanmax(p_new)-numpy.nanmin(p_new))
+    cor_nor=(cor-numpy.nanmin(cor))/(numpy.nanmax(cor)-numpy.nanmin(cor))
+    new_metr=cor_nor+p_nor
+    ind=numpy.nanargmax(new_metr)
+    return slop[ind]
+        
 #------------------------Checking the fit code--------------------------------------
-'''
+
 (t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
 ser=t1ser
 tim=tim
@@ -386,19 +413,19 @@ plt.plot(tim[:x],numpy.log(ser[:x]),'b-')
 ser=ser[y:x]
 time=tim[y:x]
 s=fit(ser,time)
-plt.plot(time,y_sl(time,s[0],s[1]),'r-')
+#plt.plot(time,y_sl(time,s[0],s[1]),'r-')
 print s[0]
-plt.show()
-'''
+#plt.show()
+print Fitt(ser,time)
 #-------------------------To use R code--------------------------------------------
-'''
+
 import pandas
-(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
+#(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
 x=pandas.DataFrame(tim)
 x.to_csv("x.csv")
 y=pandas.DataFrame(t1ser)
 y.to_csv("y.csv")
-'''
+
 #--------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------

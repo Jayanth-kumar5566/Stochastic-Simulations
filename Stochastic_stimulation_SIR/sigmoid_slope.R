@@ -22,6 +22,6 @@ j=which(x.lower == x)
 y_new=y[j:i]
 x_new=x[j:i]
 plot(x_new,y_new)
-fit <- lm(y_new ~ x_new -1)   # y 'as a linear function of' x
+fit <- lm(y_new ~ x_new )   # y 'as a linear function of' x
 abline(fit) 
 print(fit)
