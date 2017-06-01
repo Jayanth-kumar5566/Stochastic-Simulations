@@ -383,6 +383,7 @@ def Fitt(series,time):
     cor=[]
     p  =[]
     slop=[]
+    inte=[]
     while x+parts<=len(series):
         ser=series[x:x+parts]
         tim=time[x:x+parts]
@@ -390,6 +391,7 @@ def Fitt(series,time):
         A=numpy.vstack([tim,numpy.ones(len(tim))]).T
         slope,inrp=numpy.linalg.lstsq(A,ser)[0]
         slop.append(slope)
+        inte.append(inrp)
         (p_r,p_p)=ss.pearsonr(tim,ser)
         cor.append(p_r)
         p.append(p_p)
@@ -400,7 +402,7 @@ def Fitt(series,time):
     cor_nor=(cor-numpy.nanmin(cor))/(numpy.nanmax(cor)-numpy.nanmin(cor))
     new_metr=cor_nor+p_nor
     ind=numpy.nanargmax(new_metr)
-    return slop[ind]
+    return (slop[ind],inte[ind])
         
 #------------------------Checking the fit code--------------------------------------
 
@@ -410,13 +412,14 @@ tim=tim
 y=preprocessing(ser)
 x=finding_point(ser,tim,'slope')
 plt.plot(tim[:x],numpy.log(ser[:x]),'b-')
-ser=ser[y:x]
-time=tim[y:x]
+ser=ser[:x]
+time=tim[:x]
 s=fit(ser,time)
-#plt.plot(time,y_sl(time,s[0],s[1]),'r-')
+plt.plot(time,y_sl(time,s[0],s[1]),'r-')
 print s[0]
-#plt.show()
-print Fitt(ser,time)
+z=Fitt(ser,time)
+print z[0]
+plt.plot(time,y_sl(time,z[0],z[1]),'g-')
 #-------------------------To use R code--------------------------------------------
 
 import pandas
@@ -425,7 +428,13 @@ x=pandas.DataFrame(tim)
 x.to_csv("x.csv")
 y=pandas.DataFrame(t1ser)
 y.to_csv("y.csv")
-
+#plt.show()
+import os
+os.system("Rscript sigmoid_slope.R")
+file=open('tmp','r')
+a=file.readlines()
+sl=float(a[0].strip('\n'))
+print sl
 #--------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------
