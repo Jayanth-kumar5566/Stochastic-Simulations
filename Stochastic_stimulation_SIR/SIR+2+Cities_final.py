@@ -88,7 +88,7 @@ def st_sim(beta1,beta2):
     mu = 0
     #beta1 = 2
     #beta2 = 2
-    gamma1 = 0.2
+    gamma1 = 0.06
     gamma2 = gamma1
     omega = 0
     tr12 = 0
@@ -128,7 +128,7 @@ def st_sim(beta1,beta2):
     I2Val[count]=I2
     R2Val[count]=R2
 
-    while count < MAX and t < tmax and I1>=0 and I2>=0:
+    while count < MAX and t < tmax and I1>0 and I2>0:
         Rate_S12I1 = beta1*S1*(I1+tr21*I2)+alpha*S1 
         Rate_I12R1 = gamma1*(I1+tr21*I2) 
         Rate_S22I2 = beta2*S2*(I2+tr12*I1)+alpha*S2
@@ -230,8 +230,8 @@ def st_sim(beta1,beta2):
     ax[1].plot(TVal,R2Val,'g-',label='R2')
     ax[1].set_xlabel('time')
     ax[1].legend(loc='best')
-    plt.show()'''    
-
+    plt.show()    
+    '''
     tot=I1Val+I2Val
     return (I1Val,I2Val,tot,TVal)
 
@@ -275,7 +275,7 @@ def finding_point(series,time,method='max'):
     ser=numpy.log(series)
     if method == "max":
         b=numpy.nanargmax(ser)
-        return b
+        return int(b/2)
     else:
         slop_num=numpy.diff(ser)
         slop_den=numpy.diff(time)
@@ -385,8 +385,8 @@ def Fitt(series,time):
     slop=[]
     inte=[]
     while x+parts<=len(series):
-        ser=series[x:x+parts]
-        tim=time[x:x+parts]
+        ser=series[int(x):int(x+parts)]
+        tim=time[int(x):int(x+parts)]
         x += 1
         A=numpy.vstack([tim,numpy.ones(len(tim))]).T
         slope,inrp=numpy.linalg.lstsq(A,ser)[0]
@@ -410,16 +410,16 @@ def Fitt(series,time):
 ser=t1ser
 tim=tim
 y=preprocessing(ser)
-x=finding_point(ser,tim,'slope')
-plt.plot(tim[:x],numpy.log(ser[:x]),'b-')
-ser=ser[:x]
-time=tim[:x]
+x=finding_point(ser,tim,'max')
+plt.plot(tim[:x],numpy.log(ser[:x]),'b-',label='orginal series')
+ser=ser[y:x]
+time=tim[y:x]
 s=fit(ser,time)
-plt.plot(time,y_sl(time,s[0],s[1]),'r-')
+plt.plot(time,y_sl(time,s[0],s[1]),'r-',label='fit fn')
 print s[0]
 z=Fitt(ser,time)
 print z[0]
-plt.plot(time,y_sl(time,z[0],z[1]),'g-')
+plt.plot(time,y_sl(time,z[0],z[1]),'g-',label='Fitt fn')
 #-------------------------To use R code--------------------------------------------
 
 import pandas
@@ -434,9 +434,11 @@ file=open('tmp','r')
 a=file.readlines()
 sl=float(a[0].strip('\n'))
 print sl
-plt.plot(time,y_sl(time,sl,0),'k-')
+plt.plot(time,y_sl(time,sl,0),'k-',label='R code')
+plt.legend(loc='best')
 plt.show()
-
+#plt.plot(tim,numpy.log(t1ser))
+#plt.show()
 #--------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------
