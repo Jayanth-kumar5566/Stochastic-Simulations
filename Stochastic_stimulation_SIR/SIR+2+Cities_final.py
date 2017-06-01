@@ -376,8 +376,8 @@ def y_sl(x,slope,lamb):
     return slope*x+lamb
 
 #------------------------Checking the fit code--------------------------------------
-
-(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
+'''
+(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
 ser=t1ser
 tim=tim
 y=preprocessing(ser)
@@ -389,6 +389,17 @@ s=fit(ser,time)
 plt.plot(time,y_sl(time,s[0],s[1]),'r-')
 print s[0]
 plt.show()
+'''
+#-------------------------To use R code--------------------------------------------
+'''
+import pandas
+(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
+x=pandas.DataFrame(tim)
+x.to_csv("x.csv")
+y=pandas.DataFrame(t1ser)
+y.to_csv("y.csv")
+'''
+#--------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------
 #                            The Ro dependencies
