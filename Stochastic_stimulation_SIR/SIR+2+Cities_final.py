@@ -65,6 +65,27 @@
 # <span style="color:Blue">To do:</span> The Constraint equation is not satisfied $-\omega(I_{1}+I_{2})$ term remains.
 # <span style="color:Blue">Ans:</span> The constraint equation are not supposed to be satisfied since the model is stochastic 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#=======================================================Simulations==================================================
 # # Simulating the above the Model
 
 # Importing the Necessary modules:
@@ -88,15 +109,16 @@ def st_sim(beta1,beta2):
     mu = 0
     #beta1 = 2
     #beta2 = 2
-    gamma1 = 0.06
+    gamma1 = 0.1
     gamma2 = gamma1
     omega = 0
     tr12 = 0
     tr21 = 0
     tmax = 100
     alpha = 0
-    print "Ro of city 1 =", beta1/gamma1
-    print "Ro of city 2 =", beta2/gamma1
+    print "Ro of city 1 =", beta1*N1/gamma1
+    print "Ro of city 2 =", beta2*N1/gamma1
+    print "expected slope",gamma1*((beta1*N1/gamma1)-1)
     # In[12]:
 
     MAX=int(1e6)
@@ -406,7 +428,7 @@ def Fitt(series,time):
         
 #------------------------Checking the fit code--------------------------------------
 
-(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
+(t1ser,t2ser,tot,tim)=st_sim(0.8,0.7)
 ser=t1ser
 tim=tim
 y=preprocessing(ser)
@@ -424,10 +446,10 @@ plt.plot(time,y_sl(time,z[0],z[1]),'g-',label='Fitt fn')
 
 import pandas
 #(t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
-x=pandas.DataFrame(tim)
-x.to_csv("x.csv")
-y=pandas.DataFrame(t1ser)
-y.to_csv("y.csv")
+xdf=pandas.DataFrame(tim[y:])
+xdf.to_csv("x.csv")
+ydf=pandas.DataFrame(t1ser[y:])
+ydf.to_csv("y.csv")
 import os
 os.system("Rscript sigmoid_slope.R")
 file=open('tmp','r')
@@ -528,6 +550,45 @@ plt.show()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#==============================================Version 1===========================================================
 #---------------------------------------------------------------------------------------
 '''
 # In[14]:
