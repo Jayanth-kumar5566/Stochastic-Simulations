@@ -340,7 +340,10 @@ def avg_ser(series,time):
     avgeraged series: Numpy nD array'''
 
     no_o_ser=len(series)
-    delta=numpy.mean(numpy.diff(time[0]))
+    delt=[]
+    for i in time:
+        delt.append(numpy.mean(numpy.diff(i)))
+    delta=min(delt)
     stop=min(map(len,series))
     x_intrp=numpy.arange(0,stop+delta,delta)
     y_intrp=numpy.zeros(len(x_intrp))
@@ -349,16 +352,21 @@ def avg_ser(series,time):
     avg= y_intrp/no_o_ser
     return (avg,x_intrp)
 #-----------Checking Averge series--------------------------
-(t1ser,t2ser,tot,tim)=st_sim(0.08,0.6)
-(t1ser_,t2ser_,tot_,tim_)=st_sim(0.08,0.6)
-series=[t1ser,t1ser_]
-time=[tim,tim_]
+'''
+series=[]
+time=[]
+count=0
+while count<=4:
+    (t1ser,t2ser,tot,tim)=st_sim(0.8,0.6)
+    series.append(t1ser)
+    time.append(tim)
+    plt.plot(tim,t1ser,label='series'+str(count))
+    count += 1
 avg=avg_ser(series,time)
-plt.plot(tim,t1ser,label='series1')
-plt.plot(tim_,t1ser_,label='series2')
 plt.plot(avg[1],avg[0],label='avg series')
 plt.legend(loc='best')
 plt.show()
+'''
 #-------------------------------------------------------------------------------
 
 #----------------Fitting the slope---------------------------------------------
@@ -425,6 +433,30 @@ def Fitt(series,time):
         
 #------------------------Checking the fit code--------------------------------------
 '''
+series=[]
+time=[]
+count=0
+while count<=4:
+    (t1ser,t2ser,tot,tim)=st_sim(0.02,0.02)
+    series.append(t1ser)
+    time.append(tim)
+    count += 1
+avg=avg_ser(series,time)
+tim=avg[1]
+ser=avg[0]
+y=preprocessing(ser)
+x=finding_point(ser,tim,'max')
+plt.plot(tim[:x],numpy.log(ser[:x]),'b-',label='orginal series')
+ser=ser[y:x]
+time=tim[y:x]
+z=Fitt(ser,time)
+print z[0]
+plt.plot(time,y_sl(time,z[0],z[1]),'g-',label='Fitt fn')
+plt.legend(loc='best')
+plt.show()
+'''
+
+'''
 (t1ser,t2ser,tot,tim)=st_sim(0.02,0.02)
 ser=t1ser
 tim=tim
@@ -455,7 +487,8 @@ sl=float(a[0].strip('\n'))
 print sl
 plt.plot(time,y_sl(time,sl,0),'k-',label='R code')
 plt.legend(loc='best')
-plt.show()'''
+plt.show()
+'''
 #--------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------

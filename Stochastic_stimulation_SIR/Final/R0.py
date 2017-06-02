@@ -10,16 +10,28 @@ tr12 = 0
 tr21 = 0
 tmax = 100
 alpha = 0
-beta1=0.02
-beta2=0.02
+beta1=0.008
+beta2=0.008
 
-#Simulating the stochastic model
-(t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
+#----------------------------------Averaging of the series-----------------------------------------------------------
+'''
+series=[]
+time=[]
+count=0
+while count<=4:
+    (t1ser,t2ser,tot,tim)=(t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
+    series.append(t1ser)
+    time.append(tim)
+    count += 1
+avg=SIR_functions.avg_ser(series,time)
+tim=avg[1]
+ser=avg[0]
 
-ser=t1ser
-tim=tim
+#---------------------------------Fitting--------------------------------------------------------------------------------
 y=SIR_functions.preprocessing(ser)
-x=SIR_functions.finding_point(ser,tim,'slope')
+x1=SIR_functions.finding_point(ser,tim,'max')
+x2=SIR_functions.finding_point(ser,tim,'slope')
+x=max(x1,x2)
 plt.plot(tim[:x],numpy.log(ser[:x]),'b-',label='orginal series')
 ser=ser[y:x]
 time=tim[y:x]
@@ -34,12 +46,12 @@ print sl
 plt.plot(time,SIR_functions.y_sl(time,sl,0),'k-',label='R code')
 plt.legend(loc='best')
 plt.show()
-
 '''
+
 #----------------------------------------------------------------------------------------
 #                            The Ro dependencies
 
-beta_values=[(0.01,0.8),(0.02,0.2),(0.04,0.9),(1,0.5)]
+beta_values=[(0.09,0.09),(0.08,0.08),(0.07,0.07),(0.06,0.06),(0.05,0.05),(0.04,0.04)]
 ro=[]
 for (i,j) in beta_values:
     (t1ser,t2ser,tot,tim)=SIR_functions.st_sim(i,j,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
@@ -108,4 +120,4 @@ plt.legend(loc='best')
 plt.show()
 
 #-----------------------------------------------------------------------------------------------------------
-'''
+

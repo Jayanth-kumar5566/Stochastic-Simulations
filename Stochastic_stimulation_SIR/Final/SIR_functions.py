@@ -181,6 +181,7 @@ def finding_point(series,time,method='slope'):
         slop_num=numpy.diff(ser)
         slop_den=numpy.diff(time)
         slope=slop_num/slop_den
+	a=0
         for i in range(len(slope)-1):
             if abs(slope[i]-slope[i+1])<=0.4 and abs(slope[i]-slope[i+1])!=0:
                 a=i+1
