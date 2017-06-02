@@ -14,15 +14,16 @@ def dydt2Cities(Y,t,beta1,beta2,gamma):
     return np.array([dS1dt,dI1dt,dR1dt,dS2dt,dI2dt,dR2dt])
 
 def Simulate(tmax,beta1,beta2,gamma):
-    Y_in = np.array([1000,1,0,1000,1,0])
-    t = np.arange(0,tmax,0.001)
-    Y = odeint(dydt2Cities,Y_in,t,args=(beta1,beta2,gamma,))
-    fig,ax = plt.subplots()
-    ax.plot(t,Y)
-    plt.show()
-
+ 	Y_in = np.array([1000,1,0,1000,1,0])
+	t = np.arange(0,tmax,0.001)
+	Y = odeint(dydt2Cities,Y_in,t,args=(beta1,beta2,gamma,))
+	fig,ax = plt.subplots()
+	ax.plot(t,Y)
+	plt.show()
+	return Y[:,1]
 # if __name__ == '__main__':
-Simulate(100,0.0009,0.0009,0.1)
-     
-
-    
+z=Simulate(100,0.02,0.02,0.1)
+file=open('y.csv','w')
+for i in z:
+	file.write(str(i)+'\n')
+file.close()

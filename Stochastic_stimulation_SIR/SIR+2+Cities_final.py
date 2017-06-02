@@ -104,8 +104,8 @@ def st_sim(beta1,beta2):
 
     # Intial values:
 
-    N1 = 800
-    N2 = 800
+    N1 = 1000
+    N2 = 1000
     mu = 0
     #beta1 = 2
     #beta2 = 2
@@ -428,7 +428,7 @@ def Fitt(series,time):
         
 #------------------------Checking the fit code--------------------------------------
 
-(t1ser,t2ser,tot,tim)=st_sim(0.8,0.7)
+(t1ser,t2ser,tot,tim)=st_sim(0.02,0.02)
 ser=t1ser
 tim=tim
 y=preprocessing(ser)
