@@ -114,7 +114,7 @@ def st_sim(beta1,beta2):
     omega = 0
     tr12 = 0
     tr21 = 0
-    tmax = 100
+    tmax = 1000
     alpha = 0
     print "Ro of city 1 =", beta1*N1/gamma1
     print "Ro of city 2 =", beta2*N1/gamma1
@@ -242,7 +242,7 @@ def st_sim(beta1,beta2):
 
     #print 'Number of events = ',count
     #-------------------------------------------#
-    '''
+    
     fig,ax = plt.subplots(2,sharex=True)
     ax[0].plot(TVal,S1Val,'b-',label='S1')
     ax[0].plot(TVal,I1Val,'r-',label='I1')
@@ -253,7 +253,7 @@ def st_sim(beta1,beta2):
     ax[1].set_xlabel('time')
     ax[1].legend(loc='best')
     plt.show()    
-    '''
+    
     tot=I1Val+I2Val
     return (I1Val,I2Val,tot,TVal)
 
@@ -321,16 +321,15 @@ def Derivative(TSER,T):
 ''' 
 
 #---------------------Checking the split------------------------------
-'''
-(t1ser,t2ser,tot,tim)=st_sim(0.08,0.06)
+(t1ser,t2ser,tot,tim)=st_sim(0.00015,0.00015)
 #Derivative(t1ser,tim)
-x=int(finding_point(t1ser,tim,'max')/2)
+x=finding_point(t1ser,tim,'max')
 y=preprocessing(t1ser)
 plt.plot(tim,t1ser,'b-')
 plt.plot(tim[y:x],t1ser[y:x],'go')
 plt.yscale('log')
 plt.show()
-'''
+
 #------------------------------------------------------------------------------------
 def avg_ser(series,time):
     '''---------Input---------

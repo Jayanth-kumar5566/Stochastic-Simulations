@@ -265,18 +265,17 @@ def Fitt(series,time):
     new_metr=cor_nor+p_nor
     ind=numpy.nanargmax(new_metr)
     return (slop[ind],inte[ind])
-def Rcode(time,series,y):
+def Rcode(time,series):
     '''
     Input:
          time: The time series
-         series: The series of the infection even before log
-         y     : The result of preprocessing
+         series: The series of the infection even before log, the series must be preprocessed using finding point with method max 
     Return
          The value of the slope as an int
     Note: The sigmoid_slope.R should be present in the same directory'''
-    xdf=pandas.DataFrame(time[y:])
+    xdf=pandas.DataFrame(time)
     xdf.to_csv("x.csv")
-    ydf=pandas.DataFrame(series[y:])
+    ydf=pandas.DataFrame(series)
     ydf.to_csv("y.csv")
     os.system("Rscript sigmoid_slope.R")
     file=open('tmp','r')

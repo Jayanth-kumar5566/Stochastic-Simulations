@@ -14,7 +14,7 @@ beta1=0.008
 beta2=0.008
 
 #----------------------------------Averaging of the series-----------------------------------------------------------
-'''
+
 series=[]
 time=[]
 count=0
@@ -29,21 +29,21 @@ ser=avg[0]
 
 #---------------------------------Fitting--------------------------------------------------------------------------------
 y=SIR_functions.preprocessing(ser)
-x1=SIR_functions.finding_point(ser,tim,'max')
-x2=SIR_functions.finding_point(ser,tim,'slope')
-x=max(x1,x2)
+x=SIR_functions.finding_point(ser,tim,'max')
+#x2=SIR_functions.finding_point(ser,tim,'slope')
+#x=max(x1,x2)
 plt.plot(tim[:x],numpy.log(ser[:x]),'b-',label='orginal series')
 ser=ser[y:x]
 time=tim[y:x]
-s=SIR_functions.fit(ser,time)
+'''s=SIR_functions.fit(ser,time)
 plt.plot(time,SIR_functions.y_sl(time,s[0],s[1]),'r-',label='fit fn')
 print s[0]
 z=SIR_functions.Fitt(ser,time)
 print z[0]
-plt.plot(time,SIR_functions.y_sl(time,z[0],z[1]),'g-',label='Fitt fn')
-sl=SIR_functions.Rcode(time,ser,y)
+plt.plot(time,SIR_functions.y_sl(time,z[0],z[1]),'g-',label='Fitt fn')'''
+sl=SIR_functions.Rcode(tim,ser)
 print sl
-plt.plot(time,SIR_functions.y_sl(time,sl,0),'k-',label='R code')
+plt.plot(tim[y:x],SIR_functions.y_sl(tim[y:x],sl,0),'k-',label='R code')
 plt.legend(loc='best')
 plt.show()
 '''
@@ -120,4 +120,4 @@ plt.legend(loc='best')
 plt.show()
 
 #-----------------------------------------------------------------------------------------------------------
-
+'''

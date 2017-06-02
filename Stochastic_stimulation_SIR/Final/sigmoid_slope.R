@@ -9,7 +9,7 @@ log.NQ <- log(NQ)
 #plot.ts(log.NQ)
 low <- lowess(log.NQ) #statsmodels.nonparametric.smoothers_lowess
 #plot(low)
-cutoff <- 0.9
+cutoff <- 0.75
 q <- quantile(low$y, cutoff,na.rm=TRUE)#scipy.stats.mstats.mquatiles
 #plot.ts(log.NQ)
 #abline(h=q)

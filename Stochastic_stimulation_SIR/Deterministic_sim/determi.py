@@ -17,13 +17,16 @@ def Simulate(tmax,beta1,beta2,gamma):
  	Y_in = np.array([1000,1,0,1000,1,0])
 	t = np.arange(0,tmax,0.001)
 	Y = odeint(dydt2Cities,Y_in,t,args=(beta1,beta2,gamma,))
+	print "Ro is ", (beta1*1000)/float(gamma)	
 	fig,ax = plt.subplots()
 	ax.plot(t,Y)
 	plt.show()
-	return Y[:,1]
+	#return Y[:,1]
 # if __name__ == '__main__':
-z=Simulate(100,0.02,0.02,0.1)
+Simulate(1000,0.00015,0.00015,0.1)
+'''
 file=open('y.csv','w')
 for i in z:
 	file.write(str(i)+'\n')
 file.close()
+'''
