@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2015.8.30)  19 MAY 2017 13:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2017.3.10)  2 JUN 2017 12:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -101,40 +101,56 @@ Type  H <return>  for immediate help.
  ...                                              
                                                   
 l.25   \\ {
-            \color{blue} Todo: Figure out $R_{0}$ is
+            \color{blue} Todo: Figure out $R_{0}$ is defined and how do we
 ? 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 48.
+! Missing } inserted.
+<inserted text> 
+                }
+l.29   $\beta_{1)$
+                  ,$\beta_{2}$ and $N$ the total size of the population.
+? 
 ! Undefined control sequence.
 <recently read> \R 
                    
-l.54 ...cities to create cities with different $\R
+l.57    cities to create cities with different $\R
                                                   _{0}$'s?}
+? 
+
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.59  \\ Y
+          es, techincally we should consider different $\beta$ values for di...
+
 ? 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./paper_read.aux) ) 
 Here is how much of TeX's memory you used:
- 1049 strings out of 493105
- 13567 string characters out of 6137072
- 70348 words of memory out of 5000000
- 4564 multiletter control sequences out of 15000+600000
- 6419 words of font info for 23 fonts, out of 8000000 for 9000
+ 1045 strings out of 493105
+ 13510 string characters out of 6137072
+ 71348 words of memory out of 5000000
+ 4561 multiletter control sequences out of 15000+600000
+ 5804 words of font info for 21 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  23i,5n,19p,231b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
 </
 usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sh
 are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmti12.pfb>
-Output written on paper_read.pdf (2 pages, 99604 bytes).
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmti12.pfb>
+Output written on paper_read.pdf (2 pages, 107408 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
+ 47 PDF objects out of 1000 (max. 8388607)
+ 33 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -335,33 +335,30 @@ plt.show()
 def avg_ser(series,time):
     '''---------Input---------
     series: Is a list of series(numpy nD array) that needs to be averaged the series must be split first
-    time: Time values of the events
+    time: Time values of the events as a list
     -------------Returns------------------
     avgeraged series: Numpy nD array'''
 
     no_o_ser=len(series)
-    delta=numpy.mean(numpy.diff(time))
+    delta=numpy.mean(numpy.diff(time[0]))
     stop=min(map(len,series))
     x_intrp=numpy.arange(0,stop+delta,delta)
     y_intrp=numpy.zeros(len(x_intrp))
-    for i in series:
-        y_intrp += numpy.interp(x_intrp,time[:len(i)],i)
+    for i,j in zip(series,time):
+        y_intrp += numpy.interp(x_intrp,j,i)
     avg= y_intrp/no_o_ser
     return (avg,x_intrp)
 #-----------Checking Averge series--------------------------
-'''
 (t1ser,t2ser,tot,tim)=st_sim(0.08,0.6)
-(t1ser_,t2ser_,tot_,tim)=st_sim(0.08,0.6)
-x=int(finding_point(t1ser,tim,'max')/2)
-x_=int(finding_point(t1ser_,tim,'max')/2)
-y=min(x,x_)
-series=[t1ser[:x],t1ser_[:x_]]
-avg=avg_ser(series,tim)
-plt.plot(avg[1],avg[0])
-plt.plot(tim[:y],t1ser[:y],'yo')
-plt.plot(tim[:y],t1ser_[:y],'k*')
+(t1ser_,t2ser_,tot_,tim_)=st_sim(0.08,0.6)
+series=[t1ser,t1ser_]
+time=[tim,tim_]
+avg=avg_ser(series,time)
+plt.plot(tim,t1ser,label='series1')
+plt.plot(tim_,t1ser_,label='series2')
+plt.plot(avg[1],avg[0],label='avg series')
+plt.legend(loc='best')
 plt.show()
-'''
 #-------------------------------------------------------------------------------
 
 #----------------Fitting the slope---------------------------------------------
@@ -427,7 +424,7 @@ def Fitt(series,time):
     return (slop[ind],inte[ind])
         
 #------------------------Checking the fit code--------------------------------------
-
+'''
 (t1ser,t2ser,tot,tim)=st_sim(0.02,0.02)
 ser=t1ser
 tim=tim
@@ -458,9 +455,7 @@ sl=float(a[0].strip('\n'))
 print sl
 plt.plot(time,y_sl(time,sl,0),'k-',label='R code')
 plt.legend(loc='best')
-plt.show()
-#plt.plot(tim,numpy.log(t1ser))
-#plt.show()
+plt.show()'''
 #--------------------------------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------

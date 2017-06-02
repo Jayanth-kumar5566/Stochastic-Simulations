@@ -22,8 +22,11 @@ by a transport and figure out the $R_{0}$ of the new connected system.
   disease. So, How come the two cities can have different $R_{0}$ for
   the same disease.
   
-  \\ { \color{blue} Todo: Figure out $R_{0}$ is
-    defined and how do we calculate it for a model.}
+  \\ { \color{blue} Todo: Figure out $R_{0}$ is defined and how do we
+    calculate it for a model.}  \\ $R_{0}$ definition is the number of
+  secondary infections caused a single infected individual.  Since we
+  have two cities the $R_{0}$ depends only on $\gamma$ ,
+  $\beta_{1)$,$\beta_{2}$ and $N$ the total size of the population.
 
   
 \end{description}
@@ -45,11 +48,28 @@ Interventions}
     special type of calculation to account for the discreteness of the
     Individuals.{\color{blue} To see Text S1 and figure out}
 \end{description}
- \Large{\color{blue} Since $R_{0}$ is function of the disease
-    parameters, technically the $R_{0}$'s of all the cities must be
-    the same. Since $R_{0}$ doesn't depend on $\omega$. Here in this
-  paper we have different $R_{0}$'s due to seasonality changes.ie,
-  their transmission coefficient $\beta$ is different due to
-  seasons.Should we also consider giving different $\beta$ values to
-  different cities to create cities with different $\R_{0}$'s?}
+ {\color{blue} Since $R_{0}$ is function of the disease
+   parameters, technically the $R_{0}$'s of all the cities must be the
+   same. Since $R_{0}$ doesn't depend on $\omega$. Here in this paper
+   we have different $R_{0}$'s due to seasonality changes.ie, their
+   transmission coefficient $\beta$ is different due to seasons.Should
+   we also consider giving different $\beta$ values to different
+   cities to create cities with different $\R_{0}$'s?}
+
+ \\ Yes, techincally we should consider different $\beta$ values for different
+ cities since it denotes the rate of contacts inside the city and
+ connectivity of the poeple may be different in different cities. But
+ the $\gamma$ value of the cities must be the same. Since it doesnot
+ depend the location or the spatial distribution of the poeple. Hence we get different $R_{0}$
+ \section{Devolopments}
+ The initial exponential rise in propotion of susceptible who are
+ infected $p(t)$ depends on the rate of which new infections are being
+ produced at the rate $\lambda$
+ $$P(t)=P(0)e^{\lambda t}$$
+ $$\lambda = \frac{R_{0}-1}{\gamma}$$ We use $R_{0}=\frac{\beta
+   N}{\gamma}$ as the theoritical value for the cities considering
+ simple SIR model.
+ \begin{description}
+ \item[fitting the slope] Different types of fitting(see note)
+ \end{description}
 \end{document}

@@ -1,0 +1,36 @@
+import SIR_functions
+import numpy
+import  matplotlib.pyplot as plt
+N1 = 1000
+N2 = 1000
+mu = 0
+gamma = 0.1
+omega = 0
+tr12 = 0
+tr21 = 0
+tmax = 100
+alpha = 0
+beta1=0.02
+beta2=0.02
+
+#Simulating the stochastic model
+(t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
+
+ser=t1ser
+tim=tim
+y=SIR_functions.preprocessing(ser)
+x=SIR_functions.finding_point(ser,tim,'slope')
+plt.plot(tim[:x],numpy.log(ser[:x]),'b-',label='orginal series')
+ser=ser[y:x]
+time=tim[y:x]
+s=SIR_functions.fit(ser,time)
+plt.plot(time,SIR_functions.y_sl(time,s[0],s[1]),'r-',label='fit fn')
+print s[0]
+z=SIR_functions.Fitt(ser,time)
+print z[0]
+plt.plot(time,SIR_functions.y_sl(time,z[0],z[1]),'g-',label='Fitt fn')
+sl=SIR_functions.Rcode(time,ser,y)
+print sl
+plt.plot(time,SIR_functions.y_sl(time,sl,0),'k-',label='R code')
+plt.legend(loc='best')
+plt.show()
