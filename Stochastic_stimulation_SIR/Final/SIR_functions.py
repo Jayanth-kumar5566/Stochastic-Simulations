@@ -285,4 +285,17 @@ def Rcode(time,series):
     os.system('rm y.csv')
     os.system('rm tmp')
     return sl
+def mv_Avg(ser,time,window):
+    '''
+    Input:
+         ser: Takes in a series that is to be smoothed, after log is recommended
+         time: Takes the respective time as of the points as the index
+         window: Window over which they need to be smoothed
+    output:
+         A tuple with (infection_values,time of the series)
+    '''
+    ser=pandas.Series(data=ser,index=time)
+    avg_ser=ser.rolling(window=window).mean()
+    avg_ser_va=avg_ser.to_dict()
+    return (avg_ser_va.values(),avg_ser_va.keys())
 #-------------------------------------------------------------------------------------------
