@@ -11,47 +11,48 @@ tr21 = 0
 tmax = 100
 alpha = 0
 beta1=0.0002
-beta2=0.0002
+beta2=0.0003
 
 #----------------------------------Averaging of the series-----------------------------------------------------------
+def sim_av(beta1,beta2):
+    series_t1=[]
+    series_t2=[]
+    series_total=[]
+    time=[]
+    count=0
+    while count<=100:
+        (t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
+        if numpy.max(t1ser) > 0.1*N1 and numpy.max(t2ser) > 0.1*N2:
+            series_t1.append(t1ser)
+            series_t2.append(t2ser)
+            '''
+            plt.plot(tim,t1ser)
+            plt.plot(tim,t2ser)
+            plt.show()
+            plt.plot(tim,numpy.log(t1ser))
+            plt.plot(tim,numpy.log(t2ser))
+            plt.show()
+            '''
+            series_total.append(tot)
+            time.append(tim)
+            count += 1
 
-series_t1=[]
-series_t2=[]
-series_total=[]
-time=[]
-count=0
-while count<=100:
-    (t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
-    if numpy.max(t1ser) > 0.1*N1 and numpy.max(t2ser) > 0.1*N2:
-        series_t1.append(t1ser)
-        series_t2.append(t2ser)
-        '''
-        plt.plot(tim,t1ser)
-        plt.plot(tim,t2ser)
-        plt.show()
-        plt.plot(tim,numpy.log(t1ser))
-        plt.plot(tim,numpy.log(t2ser))
-        plt.show()
-        '''
-        series_total.append(tot)
-        time.append(tim)
-        count += 1
 
-
-avg_t1=SIR_functions.avg_ser(series_t1,time)
-avg_t2=SIR_functions.avg_ser(series_t2,time)
-avg_tot=SIR_functions.avg_ser(series_total,time)
-tim_t1=avg_t1[1]
-ser_t1=avg_t1[0]
-tim_t2=avg_t2[1]
-ser_t2=avg_t2[0]
-tim_tot=avg_tot[1]
-ser_tot=avg_tot[0]
-plt.plot(tim_t1,ser_t1,'g',label='series1')
-plt.plot(tim_t2,ser_t2,'r',label='series2')
-plt.legend(loc='best')
-plt.show()
-
+    avg_t1=SIR_functions.avg_ser(series_t1,time)
+    avg_t2=SIR_functions.avg_ser(series_t2,time)
+    avg_tot=SIR_functions.avg_ser(series_total,time)
+    tim_t1=avg_t1[1]
+    ser_t1=avg_t1[0]
+    tim_t2=avg_t2[1]
+    ser_t2=avg_t2[0]
+    tim_tot=avg_tot[1]
+    ser_tot=avg_tot[0]
+    plt.plot(tim_t1,ser_t1,'g',label='series1')
+    plt.plot(tim_t2,ser_t2,'r',label='series2')
+    plt.plot(tim_tot,ser_tot,'b',label='total')
+    plt.legend(loc='best')
+    plt.show()
+    return [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]
 #---------------------------------Fitting--------------------------------------------------------------------------------
 
 #(t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
@@ -71,16 +72,18 @@ def fit(ser,tim):
     print z[0]
     plt.plot(time,SIR_functions.y_sl(time,z[0],z[1]),'g-',label='Fitt fn')'''
 
-    sl=SIR_functions.Rcode(tim,ser)
-    print sl
-    plt.plot(tim[y:x],SIR_functions.y_sl(tim[y:x],sl[1],sl[0]),'k-',label='R code')
+    sl=SIR_functions.Rcode(time,ser)
+    #print sl
+    plt.plot(time,SIR_functions.y_sl(time,sl[1],sl[0]),'k-',label='R code')
     plt.legend(loc='best')
     plt.show()
     return sl
-fit(ser_t1,tim_t1)
-fit(ser_t2,tim_t2)
-fit(ser_tot,tim_tot)
 
+[(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2)
+x=fit(ser_t1,tim_t1)
+y=fit(ser_t2,tim_t2)
+z=fit(ser_tot,tim_tot)
+print(x[1],y[1],z[1])
 #----------------------------------------------------------------------------------------
 #                            The Ro dependencies
 '''

@@ -15,7 +15,7 @@ def st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha):
     tmax = 100  #Default value can be changed if needed
     print "Ro of city 1 =", beta1*N1/gamma
     print "Ro of city 2 =", beta2*N1/gamma
-    print "expected slope",gamma*((beta1*N1/gamma)-1)
+    #print "expected slope",gamma*((beta1*N1/gamma)-1)
     # In[12]:
 
     MAX=int(1e6)
@@ -283,9 +283,9 @@ def Rcode(time,series):
     a=file.readlines()
     a=a[0].strip('\n')
     (co,sl)=a.split(" ")
-    os.system('rm x.csv')
-    os.system('rm y.csv')
-    os.system('rm tmp')
+    #os.system('rm x.csv')
+    #os.system('rm y.csv')
+    #os.system('rm tmp')
     return (float(co),float(sl))
 def mv_Avg(ser,time,window):
     '''
