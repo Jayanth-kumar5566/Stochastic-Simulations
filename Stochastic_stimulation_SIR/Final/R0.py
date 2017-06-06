@@ -1,3 +1,4 @@
+from __future__ import division
 import SIR_functions
 import numpy
 import  matplotlib.pyplot as plt
@@ -10,8 +11,8 @@ tr12 = 0
 tr21 = 0
 tmax = 100
 alpha = 0
-beta1=0.0002
-beta2=0.0003
+#beta1=0.0002
+#beta2=0.0003
 
 #----------------------------------Averaging of the series-----------------------------------------------------------
 def sim_av(beta1,beta2):
@@ -47,11 +48,15 @@ def sim_av(beta1,beta2):
     ser_t2=avg_t2[0]
     tim_tot=avg_tot[1]
     ser_tot=avg_tot[0]
+    #----If needed to check
+    '''
     plt.plot(tim_t1,ser_t1,'g',label='series1')
     plt.plot(tim_t2,ser_t2,'r',label='series2')
     plt.plot(tim_tot,ser_tot,'b',label='total')
     plt.legend(loc='best')
     plt.show()
+    '''
+    #-------------
     return [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]
 #---------------------------------Fitting--------------------------------------------------------------------------------
 
@@ -61,7 +66,9 @@ def fit(ser,tim):
     x=SIR_functions.finding_point(ser,tim,'max')
     #x2=SIR_functions.finding_point(ser,tim,'slope')
     #x=max(x1,x2)
+    '''
     plt.plot(tim[:x],numpy.log(ser[:x]),'b-',label='orginal series')
+    '''
     ser=ser[y:x]
     time=tim[y:x]
 
@@ -74,81 +81,43 @@ def fit(ser,tim):
 
     sl=SIR_functions.Rcode(time,ser)
     #print sl
+    #--------------If needed to check fit
+    '''
     plt.plot(time,SIR_functions.y_sl(time,sl[1],sl[0]),'k-',label='R code')
     plt.legend(loc='best')
     plt.show()
+    '''
+    #-------------
     return sl
-
-[(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2)
-x=fit(ser_t1,tim_t1)
-y=fit(ser_t2,tim_t2)
-z=fit(ser_tot,tim_tot)
-print(x[1],y[1],z[1])
-#----------------------------------------------------------------------------------------
-#                            The Ro dependencies
-'''
-beta_values=[(0.00009,0.00009),(0.00008,0.00008),(0.00007,0.00007),(0.00006,0.00006),(0.00005,0.00005)]
-ro=[]
-for (i,j) in beta_values:
-    (t1ser,t2ser,tot,tim)=SIR_functions.st_sim(i,j,N1,N2,mu,gamma,omega,tr12,tr21,alpha)
-    r=[]
-    for k in [t1ser,t2ser,tot]:
-        y=SIR_functions.preprocessing(k)
-        x=SIR_functions.finding_point(k,tim,'max')
-        k_ser=k[y:x]
-        time=tim[y:x]
-        #s=SIR_functions.fit(k_ser,time)
-        s=SIR_functions.Rcode(time,k_ser)
-        r.append(s)
-    ro.append(r)
-
-from mpl_toolkits.mplot3d import Axes3D
-
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-
+#-------------------------------------------------------------------------------------------
+#beta_values=[(0.0002,0.0003),(0.0002,0.0004),(0.0002,0.0005),(0.0002,0.0006),(0.0002,0.0007),(0.0002,0.0008),(0.0002,0.0009),(0.0002,0.0010)]
 x=[]
 y=[]
 z=[]
+for j in numpy.arange(0.0002,0.0020,0.00001):
+    [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(0.0002,j)
+    xx=fit(ser_t1,tim_t1)
+    yy=fit(ser_t2,tim_t2)
+    zz=fit(ser_tot,tim_tot)
+    x.append(xx[1])
+    y.append(yy[1])
+    z.append(zz[1])
 
-for i in ro:
-    x.append(i[0])
-    y.append(i[1])
-    z.append(i[2])
-
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 ax.scatter(x, y, z, c='r', marker='o')
 ax.set_xlabel('R0 of city 1')
 ax.set_ylabel('R0 of city 2')
 ax.set_zlabel('total R0')
-
 plt.show()
-
-
-#-----------------------------------------r0 value dependeces----------------------------------------
-
-def Mean(z):
-    return (z[0]+z[1])/2
-def Max(z):
-    return max(z[0],z[1])
-def Min(z):
-    return min(z[0],z[1])
-def X(z):
-    return abs(z[0]-z[1])
-
-me=[]
-ma=[]
-mi=[]
-Xax=[]
-y=[]
-
-for i in ro:
-    me.append(Mean(i))
-    ma.append(Max(i))
-    mi.append(Min(i))
-    Xax.append(X(i))
-y=z
-
-
+x=numpy.array(x)
+y=numpy.array(y)
+z=numpy.array(z)
+Xax=abs(x-y)
+me=(x+y)/2
+ma=numpy.maximum.reduce([x,y])
+mi=numpy.minimum.reduce([x,y])
 plt.plot(Xax,y,'bo',label='actual total0')
 plt.plot(Xax,me,'g*',label='mean of ro')
 plt.plot(Xax,ma,'r^',label='max of the ro')
@@ -156,6 +125,3 @@ plt.plot(Xax,mi,'ko',label='min of the ro')
 plt.legend(loc='best')
 plt.show()
 
-#-----------------------------------------------------------------------------------------------------------
-
-'''

@@ -283,9 +283,9 @@ def Rcode(time,series):
     a=file.readlines()
     a=a[0].strip('\n')
     (co,sl)=a.split(" ")
-    #os.system('rm x.csv')
-    #os.system('rm y.csv')
-    #os.system('rm tmp')
+    os.system('rm x.csv')
+    os.system('rm y.csv')
+    os.system('rm tmp')
     return (float(co),float(sl))
 def mv_Avg(ser,time,window):
     '''
