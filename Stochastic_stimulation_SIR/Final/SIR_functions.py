@@ -51,7 +51,7 @@ def st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha):
         Rate_S12I1 = beta1*S1*(I1+tr21*I2)+alpha*S1 
         Rate_I12R1 = gamma*(I1+tr21*I2) 
         Rate_S22I2 = beta2*S2*(I2+tr12*I1)+alpha*S2
-        Rate_I22R2 = gamma*(I1+tr12*I1)
+        Rate_I22R2 = gamma*(I2+tr12*I1)
         Rate_S22S1 = tr21*S2
         Rate_I22I1 = tr21*I2
         Rate_R22R1 = tr21*R2
@@ -139,7 +139,7 @@ def st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha):
 
     #print 'Number of events = ',count
     #-------------------------------------------#
-    '''
+    ''' 
     fig,ax = plt.subplots(2,sharex=True)
     ax[0].plot(TVal,S1Val,'b-',label='S1')
     ax[0].plot(TVal,I1Val,'r-',label='I1')
@@ -149,8 +149,9 @@ def st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha):
     ax[1].plot(TVal,R2Val,'g-',label='R2')
     ax[1].set_xlabel('time')
     ax[1].legend(loc='best')
-    plt.show()    
-    '''
+    plt.show()
+    '''    
+    
     tot=I1Val+I2Val
     return (I1Val,I2Val,tot,TVal)
 #--------------------Preprocessing----------------------------------------------
@@ -271,7 +272,7 @@ def Rcode(time,series):
          time: The time series
          series: The series of the infection even before log, the series must be preprocessed using finding point with method max 
     Return
-         The value of the slope as an int
+         The value of the slope and the intercept  as a float
     Note: The sigmoid_slope.R should be present in the same directory'''
     xdf=pandas.DataFrame(time)
     xdf.to_csv("x.csv")
@@ -280,11 +281,12 @@ def Rcode(time,series):
     os.system("Rscript sigmoid_slope.R")
     file=open('tmp','r')
     a=file.readlines()
-    sl=float(a[0].strip('\n'))
+    a=a[0].strip('\n')
+    (co,sl)=a.split(" ")
     os.system('rm x.csv')
     os.system('rm y.csv')
     os.system('rm tmp')
-    return sl
+    return (float(co),float(sl))
 def mv_Avg(ser,time,window):
     '''
     Input:

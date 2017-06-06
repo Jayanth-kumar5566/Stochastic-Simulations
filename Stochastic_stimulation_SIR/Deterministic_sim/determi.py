@@ -23,7 +23,7 @@ def Simulate(tmax,beta1,beta2,gamma):
 	plt.show()
 	#return Y[:,1]
 # if __name__ == '__main__':
-Simulate(1000,0.00015,0.00015,0.1)
+Simulate(1000,0.0002,0.0002,0.1)
 '''
 file=open('y.csv','w')
 for i in z:
