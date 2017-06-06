@@ -91,11 +91,12 @@ def fit(ser,tim):
     return sl
 #-------------------------------------------------------------------------------------------
 #beta_values=[(0.0002,0.0003),(0.0002,0.0004),(0.0002,0.0005),(0.0002,0.0006),(0.0002,0.0007),(0.0002,0.0008),(0.0002,0.0009),(0.0002,0.0010)]
+
 x=[]
 y=[]
 z=[]
-for j in numpy.arange(0.0002,0.0020,0.00001):
-    [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(0.0002,j)
+for i in numpy.arange(0.0002,0.0020,0.00001):
+    [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(i,0.0002)
     xx=fit(ser_t1,tim_t1)
     yy=fit(ser_t2,tim_t2)
     zz=fit(ser_tot,tim_tot)
@@ -121,7 +122,8 @@ mi=numpy.minimum.reduce([x,y])
 plt.plot(Xax,y,'bo',label='actual total0')
 plt.plot(Xax,me,'g*',label='mean of ro')
 plt.plot(Xax,ma,'r^',label='max of the ro')
-plt.plot(Xax,mi,'ko',label='min of the ro')
+plt.plot(Xax,mi,'kv',label='min of the ro')
 plt.legend(loc='best')
 plt.show()
+
 
