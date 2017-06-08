@@ -1,0 +1,7 @@
+These graphs were plotted and each point is calculated slope value of the 
+city 1 and city 2 as per time series analysis.
+
+Version 2
+has the same analysis but different the slope values of the individual
+cities are theoritically calculated using the formula and time series 
+analysis is just applied to the total series.
