@@ -24,20 +24,32 @@ def Simulate(tmax,beta1,beta2,gamma,tr12,tr21):
 	#plt.show()
 	return (t,Y)
 # if __name__ == '__main__':
-Simulate(1000,0.0002,0.0005,0.1,0.4,0.4)
-tr=np.arange(0.1,1,0.1)
+#Simulate(1000,0.0002,0.0005,0.1,0.4,0.4)
+tr=np.linspace(0,0.9,20)
 labels=['S1','I1','R1','S2','I2','R2']
+
+count=0
 for i in tr:
-	(t,Y)=Simulate(100,0.0002,0.0005,0.1,i,i)
+	(t,Y)=Simulate(100,0.0002,0.0008,0.1,i,i)
 	plt.clf()	
 	plt.figure(figsize=(30,15))	
 	for y ,label in zip(Y.transpose(),labels):	
 		plt.plot(t,y,label=label)
 	plt.legend(loc='best')
-	plt.savefig(str(i)+'.png', format='png', orientation='landscape')
+	plt.savefig(str(count)+'.png', format='png', orientation='landscape')
+	count += 1
+	plt.close()
+
 '''
 file=open('y.csv','w')
 for i in z:
 	file.write(str(i)+'\n')
 file.close()
+'''
+'''
+(t,Y)=Simulate(100,0.0002,0.0008,0.1,1,1)
+for y ,label in zip(Y.transpose(),labels):	
+    plt.plot(t,y,label=label)
+plt.legend(loc='best')
+plt.show()
 '''
