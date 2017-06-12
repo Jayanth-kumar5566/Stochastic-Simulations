@@ -11,7 +11,7 @@ import os
 #-----------------Sctochastic simulations------------------------
 def st_sim(beta1,beta2,N1,N2,gamma,sigma,tr12,tr21):
     # Intial values:
-    tmax = 100  #Default value can be changed if needed
+    tmax = 1000  #Default value can be changed if needed
     #print "Ro of city 1 =", beta1*N1/gamma
     #print "Ro of city 2 =", beta2*N1/gamma
     #print "expected slope",gamma*((beta1*N1/gamma)-1)
@@ -38,7 +38,7 @@ def st_sim(beta1,beta2,N1,N2,gamma,sigma,tr12,tr21):
     R1    = 0
     S1    = N1-E1
     E2    = 1
-    I2    = 1
+    I2    = 0
     R2    = 0
     S2    = N2-E2
 
@@ -134,7 +134,7 @@ def st_sim(beta1,beta2,N1,N2,gamma,sigma,tr12,tr21):
 
     #print 'Number of events = ',count
     #-------------------------------------------#
-     
+    '''
     fig,ax = plt.subplots(2,sharex=True)
     ax[0].plot(TVal,S1Val,'b-',label='S1')
     ax[0].plot(TVal,E1Val,'k-',label='E1')    
@@ -148,7 +148,7 @@ def st_sim(beta1,beta2,N1,N2,gamma,sigma,tr12,tr21):
     ax[1].legend(loc='best')
     ax[0].legend(loc='best')
     plt.show()
-
+    '''
     
     tot=I1Val+I2Val
     return (I1Val,I2Val,tot,TVal)
