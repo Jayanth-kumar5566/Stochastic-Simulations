@@ -7,8 +7,8 @@ N2 = 1000
 mu = 0
 gamma = 0.1
 omega = 0
-tr12 = 0.05
-tr21 = 0.05
+tr12 = 0
+tr21 = 0
 tmax = 100
 alpha = 0
 #beta1=0.0002
@@ -95,6 +95,7 @@ def fit(ser,tim):
 x=[]
 y=[]
 z=[]
+
 for i in numpy.arange(0.0002,0.0010,0.0001):
     [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(0.0002,i)
     xx=fit(ser_t1,tim_t1)
@@ -103,7 +104,15 @@ for i in numpy.arange(0.0002,0.0010,0.0001):
     x.append(xx[1])
     y.append(yy[1])
     z.append(zz[1])
-
+'''
+[(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(0.0002,0.0008)
+xx=fit(ser_t1,tim_t1)
+yy=fit(ser_t2,tim_t2)
+zz=fit(ser_tot,tim_tot)
+x.append(xx[1])
+y.append(yy[1])
+z.append(zz[1])
+'''
 from mpl_toolkits.mplot3d import Axes3D
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')

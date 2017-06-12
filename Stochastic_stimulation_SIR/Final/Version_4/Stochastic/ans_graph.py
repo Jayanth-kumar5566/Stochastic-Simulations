@@ -93,15 +93,15 @@ def fit(ser,tim):
 #-------------------------------------------------------------------------------------------
 #beta_values=[(0.0002,0.0003),(0.0002,0.0004),(0.0002,0.0005),(0.0002,0.0006),(0.0002,0.0007),(0.0002,0.0008),(0.0002,0.0009),(0.0002,0.0010)]
 
-tr_val=numpy.linspace(0,0.8,10)
+tr_val=numpy.linspace(0,10,10)
 x=[]
 y=[]
 z=[]
 r1=[]
 r2=[]
 for (n,m) in zip(tr_val,tr_val):
-    beta1=0.0002
-    beta2=0.0008
+    beta1=0.0005
+    beta2=0.0010
     [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,m)
     xx=(beta1*N1)/gamma
     yy=(beta2*N2)/gamma
@@ -131,5 +131,5 @@ plt.plot(tr_val,me,'g-',label='mean of ro')
 plt.plot(tr_val,ma,'r-',label='max of the ro')
 plt.plot(tr_val,mi,'k-',label='min of the ro')
 plt.legend(loc='best')
-plt.savefig('graph3.png', format='png', orientation='landscape')
+plt.savefig('graph4.png', format='png', orientation='landscape')
 plt.close()
