@@ -2,30 +2,22 @@ from __future__ import division
 import numpy
 import matplotlib.pyplot as plt
 
-def R_e1(e,g,r1,r2):
-    num=g*(r1+r2)+(4*e**(2)+(g**2)*((r1-r2)**2))**0.5
-    den=2*(e+g)
-    return num/den
-
-def R_e2(e,g,r1,r2):
-    num=(4*e**(2)+(g**2)*((r1-r2)**2))**0.5
-    den=e+(g/2)*(1-((r1+r2)/2))
-    return num/den
-
-def R_e3(e,g,r1,r2):
-    den=2*(e+g)+(4*e**(2)+(g**2)*((r1-r2)**2))**0.5
-    num=g*(r1+r2)
-    return (r1+r2)/2+(num/den)
+def new_R(e,g,b1,b2,n=1000):
+    x=(e+g)*(b1+b2)
+    y=2*e*g+(g**2)
+    num=(((x**2)-4*b1*b2*y)**0.5)+x
+    den= 2*y
+    return n*(num/den)
 
 tr_val=numpy.linspace(0,0.1,20)
 r1=5
 r2=10
 g=0.1
+b1=0.0005
+b2=0.0010
 total=[]
 for i in tr_val:
-    #total.append(R_e1(i,g,r1,r2))
-    #total.append(R_e2(i,g,r1,r2))
-    total.append(R_e3(i,g,r1,r2))
+    total.append(new_R(i,g,b1,b2))
 plt.plot(tr_val,[r1]*20,'r-')
 plt.plot(tr_val,[r2]*20,'k-')
 plt.plot(tr_val,[(r1+r2)/2]*20,'g-')

@@ -90,7 +90,16 @@ def fit(ser,tim):
     return sl
 #-------------------------------------------------------------------------------------------
 #beta_values=[(0.0002,0.0003),(0.0002,0.0004),(0.0002,0.0005),(0.0002,0.0006),(0.0002,0.0007),(0.0002,0.0008),(0.0002,0.0009),(0.0002,0.0010)]
+(beta1,beta2)=(0.0015,0.0100)
+[(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,0,0)
+print "City 1", (beta1*N1)/gamma
+print "City 2", (beta2*N2)/gamma
+zz=fit(ser_t1,tim_t1)
+xx=fit(ser_t2,tim_t2)
+print "calculated City 1", 1+(zz[1]/gamma)
+print "calculated City 2", 1+(xx[1]/gamma)
 
+'''
 tr_val=numpy.linspace(0,1,10)
 x=[]
 y=[]
@@ -101,8 +110,8 @@ for (n,m) in zip(tr_val,tr_val):
     beta1=0.0015
     beta2=0.0045
     [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,m)
-    xx=(beta1*N1)/gamma
-    yy=(beta2*N2)/gamma
+    xx=(sigma*beta1*N1)/gamma
+    yy=(sigma*beta2*N2)/gamma
     zz=fit(ser_tot,tim_tot)
     r1_=fit(ser_t1,tim_t1)
     r2_=fit(ser_t2,tim_t2)
@@ -131,3 +140,4 @@ plt.plot(tr_val,mi,'k-',label='min of the ro')
 plt.legend(loc='best')
 plt.savefig('graph4.png', format='png', orientation='landscape')
 plt.close()
+'''
