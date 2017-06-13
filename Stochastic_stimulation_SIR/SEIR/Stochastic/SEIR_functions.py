@@ -67,6 +67,8 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
         Rate_R12R2 = tr12*R1
         Birth_S1   = lam*(S1+E1+I1+R1)
         Birth_S2   = lam*(S2+E2+I2+R2)
+        Death_S1   = mu*S1
+        Death_S2   = mu*S2
         Death_E1   = mu*E1
         Death_I1   = mu*I1
         Death_R1   = mu*R1
@@ -74,7 +76,7 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
         Death_I2   = mu*I2
         Death_R2   = mu*R2        
 
-        K  = Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2
+        K  = Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2+Death_S1+Death_S2
 
         dt = -(1.0/K)*numpy.log(random.random())
 
@@ -135,6 +137,11 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
             I2 -= 1
         elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2:
             R2 -= 1
+        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2+Death_S1:
+            S1 -= 1
+        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2+Death_S1+Death_S2:
+            S2 -= 1
+
             
         TVal[count]=t
         S1Val[count]=S1
