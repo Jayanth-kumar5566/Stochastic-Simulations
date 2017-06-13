@@ -9,7 +9,7 @@ def new_R(lam,mu,e,g,b1,b2,n1=1000,n2=1000):
     den= 2*y
     return (lam/mu)*(num/den)
 
-tr_val=numpy.linspace(0,1,10)
+tr_val=numpy.linspace(0,1,20)
 g=0.1
 b1=0.0002
 b2=0.0008
@@ -26,4 +26,5 @@ plt.plot(tr_val,[r1]*20,'r-')
 plt.plot(tr_val,[r2]*20,'k-')
 plt.plot(tr_val,[(r1+r2)/2]*20,'g-')
 plt.plot(tr_val,total,'bo')
+plt.savefig("plot.png")
 plt.show()

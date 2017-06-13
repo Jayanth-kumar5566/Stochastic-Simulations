@@ -1,10 +1,8 @@
 from __future__ import division
 import numpy as np
 from scipy.integrate import odeint
-import matplotlib as mpl
-#mpl.use("Agg")
 import matplotlib.pyplot as plt
-
+import SEIR_functions
 
 def dydt2Cities(Y,t,beta1,beta2,gamma,sigma,tr12,tr21,lam,mu):
     S1 = Y[0]
@@ -37,8 +35,7 @@ def Simulate(tmax,beta1,beta2,gamma,sigma,tr12,tr21,lam,mu):
 	'''
         return (t,Y)
     
-
-
+'''
 fig,ax=plt.subplots(2,sharex=True)
 (t,Y)=Simulate(100,0.0008,0.0020,0.1,0.5,0,0,0.0005,0.0002)
 Y=Y.transpose()
@@ -52,32 +49,80 @@ ax[1].plot(t,Y[6],label="I2")
 ax[1].plot(t,Y[7],label="R2")
 ax[1].legend(loc='best')
 ax[0].legend(loc='best')
-plt.show()
-#plt.savefig("test.pdf")
-
-
-
-
-
-
+#plt.show()
+plt.savefig("test.pdf")
+plt.clf()
 '''
-count=0
-for i in tr:
-	(t,Y)=Simulate(100,0.0002,0.0008,0.1,i,i)
-	plt.clf()	
-	plt.figure(figsize=(30,15))	
-	for y ,label in zip(Y.transpose(),labels):	
-		plt.plot(t,y,label=label)
-	plt.legend(loc='best')
-	plt.savefig(str(count)+'.png', format='png', orientation='landscape')
-	count += 1
-	plt.close()
-'''
-'''
-file=open('y.csv','w')
-for i in z:
-	file.write(str(i)+'\n')
-file.close()
-'''
+#------------------- Numerically calculating thr R0------------------
 
+def fit(ser,time):
+    y=SEIR_functions.preprocessing(ser)
+    x=SEIR_functions.finding_point(ser,time,'max')
+    ser=ser[y:x]
+    time=time[y:x]
+    sl=SEIR_functions.Rcode(time,ser)
+    return sl
+def new_R(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
+    x=(e+sig+mu)*(b1*n1*sig+b2*n2*sig)
+    y=2*e*mu+(mu**2)+2*e*sig+2*sig*mu+(sig**2)
+    num=(((x**2)-4*b1*b2*n1*n2*y*(sig**2))**0.5)+x
+    den= 2*y*(g+mu)
+    return (lam/mu)*(num/den)
 
+lam=0.0005
+mu=0.0002
+beta1=0.0008
+beta2=0.0020
+gamma=0.1
+N1=1000
+N2=1000
+sigma=0.5
+
+tr_val=np.linspace(0,1,10)
+x=[]
+y=[]
+z=[]
+r1=[]
+r2=[]
+theory=[]
+
+for (n,m) in zip(tr_val,tr_val):
+    print "Transfer value and simulating", n
+    (t,Y)=Simulate(100,beta1,beta2,gamma,sigma,n,m,lam,mu)
+    Y=Y.transpose()
+    t1ser = Y[2]
+    t2ser = Y[6]
+    totser= t1ser+t2ser
+    time=t
+    xx=(beta1*N1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
+    yy=(beta2*N2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
+    zz=fit(totser,time)
+    r1_=fit(t1ser,time)
+    r2_=fit(t2ser,time)
+    x.append(xx)
+    y.append(yy)
+    z.append(1+(zz[1]/gamma))
+    r1.append(1+(r1_[1]/gamma))
+    r2.append(1+(r2_[1]/gamma))
+    theory.append(new_R(lam,mu,n,gamma,sigma,beta1,beta2,N1,N2))
+    
+x=np.array(x)
+y=np.array(y)
+z=np.array(z)
+
+me=(x+y)/2.0
+ma=np.maximum.reduce([x,y])
+mi=np.minimum.reduce([x,y])
+
+plt.clf()
+plt.figure(figsize=(30,15))
+plt.plot(tr_val,z,'bo',label='actual total0')
+plt.plot(tr_val,theory,'o-',label='Theoritical R0')
+plt.plot(tr_val,r1,'k*',label='r1 cal')
+plt.plot(tr_val,r2,'mv',label='r2 cal')
+plt.plot(tr_val,me,'g-',label='mean of ro')
+plt.plot(tr_val,ma,'r-',label='max of the ro')
+plt.plot(tr_val,mi,'k-',label='min of the ro')
+plt.legend(loc='best')
+plt.savefig('graph6.png', format='png', orientation='landscape')
+plt.close()

@@ -3,17 +3,15 @@ import SEIR_functions
 import numpy
 import  matplotlib.pyplot as plt
 from scipy import polyfit
+#import sys
+#import time
 N1 = 1000
 N2 = 1000
 mu = 0.0005
 lam =  0.0002
 gamma = 0.1
 sigma = 0.5
-#tr12 = 0
-#tr21 = 0
 tmax = 100
-#beta1=0.0002
-#beta2=0.0003
 
 #----------------------------------Averaging of the series-----------------------------------------------------------
 def sim_av(beta1,beta2,tr12,tr21):
@@ -22,8 +20,10 @@ def sim_av(beta1,beta2,tr12,tr21):
     series_total=[]
     time=[]
     count=0
-    while count<=100:
+    num_iter=0
+    while count<=50:
         (t1ser,t2ser,tot,tim)=SEIR_functions.st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21)
+        num_iter += 1
         if numpy.max(t1ser) > 0.1*N1 and numpy.max(t2ser) > 0.1*N2:
             series_t1.append(t1ser)
             series_t2.append(t2ser)
@@ -39,7 +39,7 @@ def sim_av(beta1,beta2,tr12,tr21):
             time.append(tim)
             count += 1
 
-
+   # print "Averaging the iterations"
     avg_t1=SEIR_functions.avg_ser(series_t1,time)
     avg_t2=SEIR_functions.avg_ser(series_t2,time)
     avg_tot=SEIR_functions.avg_ser(series_total,time)
@@ -49,6 +49,8 @@ def sim_av(beta1,beta2,tr12,tr21):
     ser_t2=avg_t2[0]
     tim_tot=avg_tot[1]
     ser_tot=avg_tot[0]
+    print "Number of Iterations",num_iter
+    #print "Size of the total series",(sys.getsizeof(series_total)/sys.maxsize)*100
     #----If needed to check
     '''
     plt.plot(tim_t1,ser_t1,'g',label='series1')
@@ -81,7 +83,6 @@ def fit(ser,tim):
     plt.plot(time,SEIR_functions.y_sl(time,z[0],z[1]),'g-',label='Fitt fn')'''
 
     sl=SEIR_functions.Rcode(time,ser)
-    #print sl
     #--------------If needed to check fit
     '''
     plt.plot(time,SEIR_functions.y_sl(time,sl[1],sl[0]),'k-',label='R code')
@@ -116,7 +117,7 @@ print "Total Ro", 1+(yy[1]/gamma)
 '''
 beta1=0.0008
 beta2=0.0020
-tr_val=numpy.linspace(0,0.9,10)
+tr_val=numpy.linspace(0,1,10)
 x=[]
 y=[]
 z=[]
@@ -124,17 +125,18 @@ r1=[]
 r2=[]
 theory=[]
 for (n,m) in zip(tr_val,tr_val):
+    print "Transfer value and simulating", n
     [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,m)
     xx=(beta1*N1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
     yy=(beta2*N2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
     zz=fit(ser_tot,tim_tot)
-    #r1_=fit(ser_t1,tim_t1)
-    #r2_=fit(ser_t2,tim_t2)
+    r1_=fit(ser_t1,tim_t1)
+    r2_=fit(ser_t2,tim_t2)
     x.append(xx)
     y.append(yy)
     z.append(1+(zz[1]/gamma))
-    #r1.append(1+(r1_[1]/gamma))
-    #r2.append(1+(r2_[1]/gamma))
+    r1.append(1+(r1_[1]/gamma))
+    r2.append(1+(r2_[1]/gamma))
     theory.append(new_R(lam,mu,n,gamma,sigma,beta1,beta2,N1,N2))
     
 x=numpy.array(x)
@@ -149,11 +151,11 @@ plt.clf()
 plt.figure(figsize=(30,15))
 plt.plot(tr_val,z,'bo',label='actual total0')
 plt.plot(tr_val,theory,'o-',label='Theoritical R0')
-#plt.plot(tr_val,r1,'k*',label='r1 cal')
-#plt.plot(tr_val,r2,'mv',label='r2 cal')
+plt.plot(tr_val,r1,'k*',label='r1 cal')
+plt.plot(tr_val,r2,'mv',label='r2 cal')
 plt.plot(tr_val,me,'g-',label='mean of ro')
 plt.plot(tr_val,ma,'r-',label='max of the ro')
 plt.plot(tr_val,mi,'k-',label='min of the ro')
 plt.legend(loc='best')
-plt.savefig('graph4.png', format='png', orientation='landscape')
+plt.savefig('graph6.png', format='png', orientation='landscape')
 plt.close()
