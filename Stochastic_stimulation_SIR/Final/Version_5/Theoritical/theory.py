@@ -9,7 +9,7 @@ def new_R(lam,mu,e,g,b1,b2,n1=1000,n2=1000):
     den= 2*y
     return (lam/mu)*(num/den)
 
-tr_val=numpy.linspace(0,0.1,20)
+tr_val=numpy.linspace(0,1,10)
 g=0.1
 b1=0.0002
 b2=0.0008
