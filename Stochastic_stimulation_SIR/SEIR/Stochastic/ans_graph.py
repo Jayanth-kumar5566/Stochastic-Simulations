@@ -8,10 +8,10 @@ N2 = 1000
 mu = 0.0005
 lam =  0.0002
 gamma = 0.1
-sigma = 0.5
+sigma = 0.05
 #tr12 = 0
 #tr21 = 0
-tmax = 100
+tmax = 1000
 #beta1=0.0002
 #beta2=0.0003
 
@@ -91,15 +91,28 @@ def fit(ser,tim):
     #-------------
     return sl
 #-------------------------------------------------------------------------------------------
-#beta_values=[(0.0002,0.0003),(0.0002,0.0004),(0.0002,0.0005),(0.0002,0.0006),(0.0002,0.0007),(0.0002,0.0008),(0.0002,0.0009),(0.0002,0.0010)]
-(beta1,beta2)=(0.0015,0.0100)
-[(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,0,0)
-print "City 1", (beta1*N1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
-print "City 2", (beta2*N2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
+def new_R(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
+    x=(e+sig+mu)*(b1*n1*sig+b2*n2*sig)
+    y=2*e*mu+(mu**2)+2*e*sig+2*sig*mu+(sig**2)
+    num=(((x**2)-4*b1*b2*n1*n2*y*(sig**2))**0.5)+x
+    den= 2*y*(g+mu)
+    return (lam/mu)*(num/den)
+
+e=0
+beta1=0.0005
+beta2=0.0009
+print "===========Theoritical caluclation====================="
+print "City 1 R0", (beta1*N1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
+print "City 2 R0", (beta2*N2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
+print "Total R0", new_R(lam,mu,e,gamma,sigma,beta1,beta2,N1,N2)
+print "===============Numerical Calculations================="
+[(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,e,e)
 zz=fit(ser_t1,tim_t1)
+print "City 1 R0", 1+(zz[1]/gamma)
 xx=fit(ser_t2,tim_t2)
-print "calculated City 1", 1+(zz[1]/gamma)
-print "calculated City 2", 1+(xx[1]/gamma)
+print "City 2 R0", 1+(xx[1]/gamma)
+yy=fit(ser_tot,tim_tot)
+print "Total Ro", 1+(yy[1]/gamma)
 
 '''
 tr_val=numpy.linspace(0,1,10)
