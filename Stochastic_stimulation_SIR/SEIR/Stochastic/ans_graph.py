@@ -8,10 +8,10 @@ N2 = 1000
 mu = 0.0005
 lam =  0.0002
 gamma = 0.1
-sigma = 0.05
+sigma = 0.5
 #tr12 = 0
 #tr21 = 0
-tmax = 1000
+tmax = 100
 #beta1=0.0002
 #beta2=0.0003
 
@@ -99,8 +99,8 @@ def new_R(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
     return (lam/mu)*(num/den)
 
 e=0
-beta1=0.0005
-beta2=0.0009
+beta1=0.0008
+beta2=0.0020
 print "===========Theoritical caluclation====================="
 print "City 1 R0", (beta1*N1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
 print "City 2 R0", (beta2*N2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)

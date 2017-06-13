@@ -2,11 +2,11 @@ from __future__ import division
 import numpy as np
 from scipy.integrate import odeint
 import matplotlib as mpl
-mpl.use("Agg")
+#mpl.use("Agg")
 import matplotlib.pyplot as plt
 
 
-def dydt2Cities(Y,t,beta1,beta2,gamma,sigma,tr12,tr21):
+def dydt2Cities(Y,t,beta1,beta2,gamma,sigma,tr12,tr21,lam,mu):
     S1 = Y[0]
     E1 = Y[1]
     I1 = Y[2]
@@ -15,20 +15,20 @@ def dydt2Cities(Y,t,beta1,beta2,gamma,sigma,tr12,tr21):
     E2 = Y[5]
     I2 = Y[6]
     R2 = Y[7]
-    dS1dt = -beta1*S1*I1 -tr12*S1 +tr21*S2
-    dE1dt =  beta1*S1*I1 -sigma*E1 -tr12*E1 +tr21*E2
-    dI1dt =  sigma*E1 - gamma*I1 
-    dR1dt =  gamma*I1 -tr12*R1 +tr21*R2
-    dS2dt = -beta2*S2*I2 -tr21*S2 +tr12*S1
-    dE2dt =  beta2*S2*I2 -sigma*E2 -tr21*E2 +tr12*E1
-    dI2dt =  sigma*E2 - gamma*I2
-    dR2dt =  gamma*I2 -tr21*R2 +tr12*R1
+    dS1dt = -beta1*S1*I1 -tr12*S1 +tr21*S2 +lam*(S1+E1+I1+R1) -mu*S1
+    dE1dt =  beta1*S1*I1 -sigma*E1 -tr12*E1 +tr21*E2 -mu*E1
+    dI1dt =  sigma*E1 - gamma*I1 -mu*I1
+    dR1dt =  gamma*I1 -tr12*R1 +tr21*R2 -mu*R1
+    dS2dt = -beta2*S2*I2 -tr21*S2 +tr12*S1 +lam*(S2+E2+I2+R2) -mu*S2
+    dE2dt =  beta2*S2*I2 -sigma*E2 -tr21*E2 +tr12*E1 -mu*E2
+    dI2dt =  sigma*E2 - gamma*I2 -mu*I2
+    dR2dt =  gamma*I2 -tr21*R2 +tr12*R1 -mu*R2
     return np.array([dS1dt,dE1dt,dI1dt,dR1dt,dS2dt,dE2dt,dI2dt,dR2dt])
  
-def Simulate(tmax,beta1,beta2,gamma,sigma,tr12,tr21):
- 	Y_in = np.array([1000,1,0,0,1000,0,0,0])
+def Simulate(tmax,beta1,beta2,gamma,sigma,tr12,tr21,lam,mu):
+ 	Y_in = np.array([1000,1,0,0,1000,1,0,0])
 	t = np.arange(0,tmax,0.001)
-	Y = odeint(dydt2Cities,Y_in,t,args=(beta1,beta2,gamma,sigma,tr12,tr21))
+	Y = odeint(dydt2Cities,Y_in,t,args=(beta1,beta2,gamma,sigma,tr12,tr21,lam,mu))
 	#print "Ro is ", (beta1*1000)/float(gamma)	
         '''
         fig,ax = plt.subplots()
@@ -40,7 +40,7 @@ def Simulate(tmax,beta1,beta2,gamma,sigma,tr12,tr21):
 
 
 fig,ax=plt.subplots(2,sharex=True)
-(t,Y)=Simulate(100,0.0015,0.0015,0.1,0.5,0.1,0.1)
+(t,Y)=Simulate(100,0.0008,0.0020,0.1,0.5,0,0,0.0005,0.0002)
 Y=Y.transpose()
 ax[0].plot(t,Y[0],label="S1")
 ax[0].plot(t,Y[1],label="E1")
@@ -52,7 +52,8 @@ ax[1].plot(t,Y[6],label="I2")
 ax[1].plot(t,Y[7],label="R2")
 ax[1].legend(loc='best')
 ax[0].legend(loc='best')
-plt.savefig("test.pdf")
+plt.show()
+#plt.savefig("test.pdf")
 
 
 
