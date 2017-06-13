@@ -78,7 +78,7 @@ N1=1000
 N2=1000
 sigma=0.5
 
-tr_val=np.linspace(0,1,10)
+tr_val=np.linspace(0,1,20)
 x=[]
 y=[]
 z=[]
