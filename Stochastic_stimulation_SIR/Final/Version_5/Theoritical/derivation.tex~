@@ -1,0 +1,158 @@
+\documentclass[14pt]{article}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage[affil-it]{authblk}
+\usepackage{amsmath}
+\begin{document}
+\author{Jayanth Kumar N}
+\affil{Indian Institute of Science Education and Research, Pune}
+\title{\textbf{Derivation of $R_{0}$ in SIR and SEIR models over a network with 2 vertices}}
+\maketitle
+
+\section{The Next generation operator method}
+$R_{0}$ is defined as the spectral radius of the 'next generation
+operator'.  To find the next generation operator, we need to first
+identify the infected and non-infected compartments. Suppose there are
+$n$ compartments of which $m$ are infected. Let $\bar{x}=(x_{1},x_{2},\dots,x_{n})$
+where each $x_{i}$ denotes the number of individuals in $i^{th}$ compartment.
+Let, $F_{i}(x)$, denote the rate of apperance of new infections in compartment $i$.
+$V^{-}_{i}(x)$ be the rate of transfer of individuals into compartment $i$ by all other means and
+$V^{+}_{i}(x)$ be the rate of transfer of individuals out of compartment $i$.
+
+$$\frac{dx_{i}}{dt}=F_{i}(x)-V_{i}(x)= f(x_{i})$$  where $V_{i}(x)=V^{+}_{i}(x)-V^{-}_{i}(x)$.
+
+We then construct $\mathcal{F}$ and $\mathcal{V}$ matrices by taking
+the partial derivatives of the $F_{i}$ with respect to $x_{i}$ and
+similarly for $\mathcal{V}$ by taking partial derivatives of $V_{i}$.
+We define $R_{0}$ to be the spectral radius of the $\mathcal{F}\mathcal{V}^{-1}$.\\
+\textbf{Spectral radius of square matrix} It is the  largest absolute value of the matrix's eigen value.
+
+
+\subsection{Assumptions}
+\begin{enumerate}
+\item If $\bar{x} \geq 0$, then $F_{i},V_{i}^{+},V_{i}^{i} \geq 0 \forall i$
+\item If $\bar{x} \eq 0$, then $V_{i}^{-} \eq 0$
+\item $F_{i} \eq 0$ if $i \geq m$
+\item If $\bar{x} \in X_{s} $, where $X_{s}$ is set of all Disease Free states. Then $F_{i},V_{i}^{+}=0$
+  \item It is assumed that a disease free equilibrium exists and it is a locally asymptotically stable solution of the disease free model.Thus if $x_{0}$ denotes a disease free equilibrium of the system, then if $\mathcal{F}(x)$ is set to zero, then all eigenvalues of $Df(x_{0})$ have negative real parts.
+\end{enumerate}
+\subsection{SIR model with birth and death}
+The following is the derivation of $R_{0}$ for SIR model with birth and death. \\
+\textbf{Equations}
+$$\frac{dS_{1}}{dt}=\lambda(S_{1}+I_{1}+R_{1}) -\mu  S_{1} - \beta_{1} S_{1}I_{1}  + \epsilon S_{2} -\epsilon S_{1} $$
+$$\frac{dI_{1}}{dt}= -\mu  I_{1} + \beta_{1} S_{1}I_{1}  + \epsilon I_{2} -\epsilon I_{1} -\gamma I_{1} $$
+$$\frac{dR_{1}}{dt}= -\mu  R_{1} +  \epsilon R_{2} -\epsilon R_{1} +\gamma I_{1} $$
+Similarlly for City 2
+\begin{itemize}
+
+\item \textbf{For single city in isolation with no transfer rates}\\
+  $\epsilon = 0$ , $n=3$ and $m=1$ \\ $F_{i}$ is the rate of
+  apperance of infection at compartment $i$, It is enough to consider
+  the $I$ compartment, Since only $I$ contributes for the infection.
+
+  $$\frac{dI}{dt}= \beta S I -\gamma I -\mu I$$
+  $$F=\beta S I,V= -\gamma I -\mu I$$\
+  $$\frac{dF}{dI}=\beta S , \frac{dV}{dI}= -\gamma -\mu$$ 
+  at Disease Free equilibrium \textit{$S1=N_{0}$ where $N_{0}$ is the initial number of people} \newline
+  $$\frac{dF}{dI} \big|_{DFE}=\beta N_{0} , \frac{dV}{dI} \big|_{DFE}= -\gamma -\mu$$ \\
+  $$\mathcal{F}=\frac{dF}{dI} \big|_{DFE},  \mathcal{V}=\frac{dV}{dI} \big|_{DFE}$$ \\
+  Since $R_{0}$ equals the spectral radius of $\mathcal{F}\mathcal{V}^{-1}$, We find that
+  $$R_{0}=\frac{\beta N}{(\gamma + \mu)}$$
+
+\item \textbf{For two cities with transfer rates} \newline
+  $n=6$ and $m=2$ where $I_{1}$ and $I_{2}$ are the two infected compartments.\newline
+  $$F_{1} = \beta_{1} S_{1} I_{1} ,  F_{2} = \beta_{2} S_{2} I_{2}$$ 
+  $$V_{1}=-\gamma I_{1} -\mu I_{1} -\epsilon I_{1} + \epsilon I{2},   V_{2}=-\gamma I_{2} -\mu I_{2} -\epsilon I_{2} + \epsilon I{1}$$ 
+  Now,\\
+  \center
+    \[
+\mathcal{F}=
+  \begin{bmatrix}
+    $\beta_{1} N_{1}$ & 0 \\
+    0 & $\beta_{2} N_{2}$ \\
+  \end{bmatrix}
+\]
+ 
+\[
+\mathcal{V}=
+  \begin{bmatrix}
+    $-\gamma -\mu - \epsilon$ & $\epsilon$ \\
+    $\epsilon$ & $-\gamma -\mu -\epsilon$ \\
+  \end{bmatrix}
+\]
+\end{itemize}
+The Eigen values of $\mathcal{F}\mathcal{V}^{-1}$ was calculated using mathematica,
+
+The spectral radius defined as the absolute value of the largest eigen value turns out to be
+$$R_{0}=\frac{X+\sqrt{X^{2}-4\beta_{1}\beta{2}N_{1}N_{2}Y}}{2Y}$$ where $X=(\beta_{1} N_{1}+\beta{2} N_{2}))(\epsilon+\mu+\gamma)$ and $Y=(2 \epsilon \gamma+\gamma^{2}+2 \epsilon \mu+ 2 \mu \gamma+ \mu^{2})$
+
+\subsection{SEIR Model}
+\textbf{Equations} \newline
+$$\frac{dS_{1}}{dt}=\lambda(S_{1}+E_{1}+I_{1}+R_{1}) -\mu  S_{1} - \beta_{1} S_{1}I_{1}  + \epsilon S_{2} -\epsilon S_{1} $$
+$$\frac{dE_{1}}{dt}= -\mu  E_{1} + \beta_{1} S_{1}I_{1}  + \epsilon E_{2} -\epsilon E_{1} -\sigma  E_{1} $$
+$$\frac{dI_{1}}{dt}= \sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
+$$\frac{dR_{1}}{dt}= -\mu  R_{1} +  \epsilon R_{2} -\epsilon R_{1} +\gamma I_{1} $$
+Similarlly for City 2
+
+\begin{itemize}
+\item \textbf{For single city in isolation with no transfer rates}\\
+  $\epsilon = 0$ , $n=4$ and $m=2$, $E_{1}$ and $I_{1}$ are considered as infective compartments 
+  $$F_{1}=\beta_{1} S_{1} I_{1}, F_{2}=0$$
+  $$V_{1}=-\mu E_{1} -\sigma \E_{1}, V_{2}=\sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
+  Now, calculating $\mathcal{F}$ and $\mathcal{V}$ at DFE \textit{S_{1}=N_{1}} \newline
+\center
+  \[
+\mathcal{F}=
+  \begin{bmatrix}
+    0 & $\beta_{1} N_{1}$ \\
+    0 &  0 \\
+  \end{bmatrix}
+\]
+ 
+\[
+\mathcal{V}=
+  \begin{bmatrix}
+    $ -\sigma -\mu$ & 0  \\
+    $\sigma$ & $-\gamma -\mu$ \\
+  \end{bmatrix}
+\]
+
+The Spectral radius of $\mathcal{F}\mathcal{V}^{-1}$ was calculated using mathematica.
+$$R_{0}=\frac{\beta_{1} N_{1} \sigma}{(\gamma + \mu)(\mu +\sigma)}$$
+
+\item \flushleft \textbf{For two cities with transfer rates} \newline
+  $n=8$ and $m=4$, $E_{1}$,$I_{1}$,$E_{1}$ and $I_{1}$ are considered as infective compartments.
+  $$F_{1}=\beta_{1} S_{1} I_{1}, F_{2}=0$$
+  $$F_{3}=\beta_{2} S_{2} I_{2}, F_{4}=0$$
+  $$V_{1}=-\mu E_{1}+ \epsilon E_{2} -\epsilon E_{1} -\sigma \E_{1}, V_{2}=\sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
+  $$V_{3}=-\mu E_{2}+ \epsilon E_{1} -\epsilon E_{2} -\sigma \E_{2}, V_{4}=\sigma E_{2} -\gamma I_{2} -\mu I_{2}$$
+
+  Now, calculating $\mathcal{F}$ and $\mathcal{V}$ at DFE \textit{S_{1}=N_{1} and S_{2}=I_{2}} \newline
+
+ 
+ \[
+\mathcal{F}=
+  \begin{bmatrix}
+    0 & $\beta_{1} N_{1}$ & 0 &   0 \\
+    0 &  0                & 0 &   0 \\
+    0 &  0                & 0 &  $\beta_{2} N_{2}$ \\
+    0 &  0                & 0 &   0 \\
+  \end{bmatrix}
+\]
+
+
+\[
+\mathcal{V}=
+  \begin{bmatrix}
+    $ -\sigma -\mu -\epsilon$  & 0 & $\epsilon $ & 0  \\
+    $\sigma$ & $-\gamma -\mu$  & 0 & 0 \\
+    $\epsilon$ & 0 & $-\sigma -\epsilon -\mu$ & 0 \\
+    0 & 0 & $\sigma$ & $-\mu -\gamma$
+  \end{bmatrix}
+\]
+
+
+The Spectral radius of $\mathcal{F}\mathcal{V}^{-1}$ was calculated using mathematica.
+$$R_{0}=\frac{X+\sqrt{X^{2}-4\beta_{1}\beta{2}N_{1}N_{2} \sigma^{2} Y}}{2(\gamma+\mu)Y}$$ where $X=(\beta_{1} N_{1} \sigma+\beta{2} N_{2} \sigma))(\epsilon + \mu + \sigma)$ and $Y=(2 \epsilon \mu+\mu^{2}+2 \epsilon \sigma +2 \mu \sigma +\sigma^{2})$
+\end{itemize}
+\end{document}
