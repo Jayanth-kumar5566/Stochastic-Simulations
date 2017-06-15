@@ -5,8 +5,8 @@ import  matplotlib.pyplot as plt
 from scipy import polyfit
 #import sys
 #import time
-N1 = 1000
-N2 = 1000
+N1 = 1001
+N2 = 1001
 mu = 0.0005
 lam =  0.0002
 gamma = 0.1
@@ -92,12 +92,15 @@ def fit(ser,tim):
     #-------------
     return sl
 #-------------------------------------------------------------------------------------------
-def new_R(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
+def R_eff(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
     x=(e+sig+mu)*(b1*n1*sig+b2*n2*sig)
     y=2*e*mu+(mu**2)+2*e*sig+2*sig*mu+(sig**2)
     num=(((x**2)-4*b1*b2*n1*n2*y*(sig**2))**0.5)+x
     den= 2*y*(g+mu)
-    return (lam/mu)*(num/den)
+    return (num/den)
+def R(beta,gamma,sigma,mu,lam,N):
+    return (beta*N*sigma)/((gamma+mu)*(mu+sigma))
+
 '''
 e=0
 beta1=0.0008
@@ -115,9 +118,11 @@ print "City 2 R0", 1+(xx[1]/gamma)
 yy=fit(ser_tot,tim_tot)
 print "Total Ro", 1+(yy[1]/gamma)
 '''
+
+
 beta1=0.0008
 beta2=0.0020
-tr_val=numpy.linspace(0,1,10)
+tr_val=numpy.linspace(0,0.9,10)
 x=[]
 y=[]
 z=[]
@@ -127,8 +132,8 @@ theory=[]
 for (n,m) in zip(tr_val,tr_val):
     print "Transfer value and simulating", n
     [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,m)
-    xx=(beta1*N1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
-    yy=(beta2*N2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
+    xx=R(beta1,gamma,sigma,mu,lam,N1)
+    yy=R(beta2,gamma,sigma,mu,lam,N2)
     zz=fit(ser_tot,tim_tot)
     r1_=fit(ser_t1,tim_t1)
     r2_=fit(ser_t2,tim_t2)
@@ -137,7 +142,7 @@ for (n,m) in zip(tr_val,tr_val):
     z.append(1+(zz[1]/gamma))
     r1.append(1+(r1_[1]/gamma))
     r2.append(1+(r2_[1]/gamma))
-    theory.append(new_R(lam,mu,n,gamma,sigma,beta1,beta2,N1,N2))
+    theory.append(R_eff(lam,mu,n,gamma,sigma,beta1,beta2,N1,N2))
     
 x=numpy.array(x)
 y=numpy.array(y)

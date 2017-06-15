@@ -93,26 +93,32 @@ def fit(ser,tim):
 #-------------------------------------------------------------------------------------------
 #beta_values=[(0.0002,0.0003),(0.0002,0.0004),(0.0002,0.0005),(0.0002,0.0006),(0.0002,0.0007),(0.0002,0.0008),(0.0002,0.0009),(0.0002,0.0010)]
 
-tr_val=numpy.linspace(0,1,10)
+tr_val=numpy.linspace(0,1,5)
 x=[]
 y=[]
 z=[]
 r1=[]
 r2=[]
+theory=[]
+def R_theory(e,g,b1,b2,N):
+    x=(e+g)*(b1+b2)
+    y=(2*e*g+g**2)
+    return N*(((x**(2)-4*b1*b2*y)-x)/(2*y))
 for (n,m) in zip(tr_val,tr_val):
     beta1=0.0005
     beta2=0.0010
     [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,m)
     xx=(beta1*N1)/gamma
     yy=(beta2*N2)/gamma
+    theory.append(R_theory(n,gamma,beta1,beta2,N1))
     zz=fit(ser_tot,tim_tot)
-    r1_=fit(ser_t1,tim_t1)
-    r2_=fit(ser_t2,tim_t2)
+    #r1_=fit(ser_t1,tim_t1)
+    #r2_=fit(ser_t2,tim_t2)
     x.append(xx)
     y.append(yy)
     z.append(1+(zz[1]/gamma))
-    r1.append(1+(r1_[1]/gamma))
-    r2.append(1+(r2_[1]/gamma))
+    #r1.append(1+(r1_[1]/gamma))
+    #r2.append(1+(r2_[1]/gamma))
     
 x=numpy.array(x)
 y=numpy.array(y)
@@ -125,11 +131,14 @@ mi=numpy.minimum.reduce([x,y])
 plt.clf()
 plt.figure(figsize=(30,15))
 plt.plot(tr_val,z,'bo',label='actual total0')
-plt.plot(tr_val,r1,'k*',label='r1 cal')
-plt.plot(tr_val,r2,'mv',label='r2 cal')
+#plt.plot(tr_val,r1,'k*',label='r1 cal')
+#plt.plot(tr_val,r2,'mv',label='r2 cal')
+plt.plot(tr_val,theory,'o-',label='theory')
 plt.plot(tr_val,me,'g-',label='mean of ro')
 plt.plot(tr_val,ma,'r-',label='max of the ro')
 plt.plot(tr_val,mi,'k-',label='min of the ro')
 plt.legend(loc='best')
 plt.savefig('graph4.png', format='png', orientation='landscape')
 plt.close()
+
+''' Without birth rate and death rate SIR model theory and Simulation analysis results running'''

@@ -54,30 +54,69 @@ plt.savefig("test.pdf")
 plt.clf()
 '''
 #------------------- Numerically calculating thr R0------------------
-
+labels=['S1','E1','I1','R1','S2','E2','I2','R2']
 def fit(ser,time):
     y=SEIR_functions.preprocessing(ser)
     x=SEIR_functions.finding_point(ser,time,'max')
+    print np.log(ser)
+    plt.plot(time[y:x],np.log(ser[y:x]),'b-',label='orginal series')
     ser=ser[y:x]
     time=time[y:x]
     sl=SEIR_functions.Rcode(time,ser)
+    plt.plot(time,SEIR_functions.y_sl(time,sl[1],sl[0]),'k-',label='R code')
+    plt.legend(loc='best')
+    plt.show()
     return sl
-def new_R(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
+def R_eff(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
     x=(e+sig+mu)*(b1*n1*sig+b2*n2*sig)
     y=2*e*mu+(mu**2)+2*e*sig+2*sig*mu+(sig**2)
     num=(((x**2)-4*b1*b2*n1*n2*y*(sig**2))**0.5)+x
     den= 2*y*(g+mu)
-    return (lam/mu)*(num/den)
+    return (num/den)
+def R(beta,gamma,sigma,mu,lam,N):
+    return (beta*N*sigma)/((gamma+mu)*(mu+sigma))
 
+
+e=0
 lam=0.0005
 mu=0.0002
 beta1=0.0008
 beta2=0.0020
 gamma=0.1
-N1=1000
-N2=1000
+N1=1001
+N2=1001
 sigma=0.5
 
+print "==============Theoritical calculation====================="
+print "City 1 R0", R(beta1,gamma,sigma,mu,lam,N1)
+print "City 2 R0", R(beta2,gamma,sigma,mu,lam,N2)
+print "Total R0",  R_eff(lam,mu,e,gamma,sigma,beta1,beta2,N1,N2)
+print "===============Numerical Calculations===================="
+(t,Y)=Simulate(500,beta1,beta2,gamma,sigma,e,e,lam,mu)
+'''
+for y ,label in zip(Y.transpose(),labels):	
+    plt.plot(t,y,label=label)
+plt.legend(loc='best')
+plt.show()
+'''
+Y=Y.transpose()
+ser_t1=Y[2]
+ser_t2=Y[6]
+ser_tot=ser_t1+ser_t2
+zz=fit(ser_t1,t)
+print "City 1 R0", 1+(zz[1]/gamma)
+xx=fit(ser_t2,t)
+print "City 2 R0", 1+(xx[1]/gamma)
+yy=fit(ser_tot,t)
+print "Total Ro", 1+(yy[1]/gamma)
+
+
+
+
+
+
+
+'''
 tr_val=np.linspace(0,1,20)
 x=[]
 y=[]
@@ -126,3 +165,4 @@ plt.plot(tr_val,mi,'k-',label='min of the ro')
 plt.legend(loc='best')
 plt.savefig('graph6.png', format='png', orientation='landscape')
 plt.close()
+'''

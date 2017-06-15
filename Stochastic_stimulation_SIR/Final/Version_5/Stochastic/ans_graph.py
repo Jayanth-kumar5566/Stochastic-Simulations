@@ -6,13 +6,13 @@ import  matplotlib.pyplot as plt
 from scipy import polyfit
 N1 = 1000
 N2 = 1000
-mu = 0.0001
-lam=0.0001
+mu = 0.0002
+lam=0.0005
 gamma = 0.1
 omega = 0
 #tr12 = 0
 #tr21 = 0
-tmax = 1000
+tmax = 100
 alpha = 0
 #beta1=0.0002
 #beta2=0.0003
@@ -93,20 +93,20 @@ def fit(ser,tim):
     #-------------
     return sl
 #-------------------------------------------------------------------------------------------
-'''
+
 #------------------------------------testing theory and simulation--------------------------
-e=0
+e=0.8
 def new_R(lam,mu,e,g,b1,b2,n1=1000,n2=1000):
     x=(e+g+mu)*(b1*n1+b2*n2)
     y=2*e*g+(g**2)+2*e*mu+2*g*mu+(mu**2)
     num=(((x**2)-4*b1*b2*n1*n2*y)**0.5)+x
     den= 2*y
-    return (lam/mu)*(num/den)
+    return (num/den)
 
 (beta1,beta2)=(0.0002,0.0008)
 print "=============Theoritical calculations================"
-print "City 1 Ro", (beta1*N1*lam)/((mu+gamma)*mu)
-print "City 2 R0", (beta2*N2*lam)/((mu+gamma)*mu)
+print "City 1 Ro", (beta1*N1)/(mu+gamma)
+print "City 2 R0", (beta2*N2)/(mu+gamma)
 print "Total R0",  new_R(lam,mu,e,gamma,beta1,beta2,N1,N2)
 print "=============Numerical calculations================"
 [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,e,e)
@@ -116,14 +116,9 @@ r2_=fit(ser_t2,tim_t2)
 print "City 2 R0", 1+(r2_[1]/gamma)
 zz_=fit(ser_tot,tim_tot)
 print "Total R0", 1+(zz_[1]/gamma)
-'''
-def new_R(lam,mu,e,g,b1,b2,n1=1000,n2=1000):
-    x=(e+g+mu)*(b1*n1+b2*n2)
-    y=2*e*g+(g**2)+2*e*mu+2*g*mu+(mu**2)
-    num=(((x**2)-4*b1*b2*n1*n2*y)**0.5)+x
-    den= 2*y
-    return (lam/mu)*(num/den)
 
+
+'''
 tr_val=numpy.linspace(0,0.9,10)
 x=[]
 y=[]
@@ -135,16 +130,16 @@ beta2=0.0008
 theory=[]
 for (n,m) in zip(tr_val,tr_val):
     [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,m)
-    xx=(beta1*N1*lam)/((mu+gamma)*mu)
-    yy=(beta2*N2*lam)/((mu+gamma)*mu)
+    xx=(beta1*N1)/(mu+gamma)
+    yy=(beta2*N2)/(mu+gamma)
     zz=fit(ser_tot,tim_tot)
-    #r1_=fit(ser_t1,tim_t1)
-    #r2_=fit(ser_t2,tim_t2)
+    r1_=fit(ser_t1,tim_t1)
+    r2_=fit(ser_t2,tim_t2)
     x.append(xx)
     y.append(yy)
     z.append(1+(zz[1]/gamma))
-    #r1.append(1+(r1_[1]/gamma))
-    #r2.append(1+(r2_[1]/gamma))
+    r1.append(1+(r1_[1]/gamma))
+    r2.append(1+(r2_[1]/gamma))
     theory.append(new_R(lam,mu,n,gamma,beta1,beta2,N1,N2))
     
 x=numpy.array(x)
@@ -158,8 +153,8 @@ mi=numpy.minimum.reduce([x,y])
 plt.clf()
 plt.figure(figsize=(30,15))
 plt.plot(tr_val,z,'bo',label='actual total0')
-#plt.plot(tr_val,r1,'k*',label='r1 cal')
-#plt.plot(tr_val,r2,'mv',label='r2 cal')
+plt.plot(tr_val,r1,'k*',label='r1 cal')
+plt.plot(tr_val,r2,'mv',label='r2 cal')
 plt.plot(tr_val,me,'g-',label='mean of ro')
 plt.plot(tr_val,ma,'r-',label='max of the ro')
 plt.plot(tr_val,mi,'k-',label='min of the ro')
@@ -167,3 +162,4 @@ plt.plot(tr_val,theory,'-o',label='Theory')
 plt.legend(loc='best')
 plt.savefig('plot.png', format='png', orientation='landscape')
 plt.close()
+'''
