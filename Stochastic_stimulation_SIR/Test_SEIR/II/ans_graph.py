@@ -134,7 +134,7 @@ def fit(ser,tim):
 
 beta1=1.5
 beta2=0.8
-tr_val=[0.0001,0.005,0.2,0.4,0.5,0.7,0.9]
+tr_val=[0.005,0.1,0.2,0.3,0.4,0.5,0.6]
 seir=[]
 sir=[]
 for (n,m) in zip(tr_val,tr_val):
@@ -156,5 +156,5 @@ plt.plot(tr_val,seir,'ro-',label='Total R0 SEIR')
 plt.xlabel("Transfer rate")
 plt.ylabel("$R_{0}$ Values")
 plt.legend(loc='best')
-plt.savefig('II.png', format='png', orientation='landscape')
+plt.savefig('II_20.png', format='png', orientation='landscape')
 plt.close()

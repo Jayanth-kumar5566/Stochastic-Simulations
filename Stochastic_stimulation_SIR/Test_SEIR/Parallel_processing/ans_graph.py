@@ -7,10 +7,10 @@ from scipy import polyfit
 import sys
 N1 = 1000
 N2 = 1000
-mu = 0
-lam =  0
+mu = 0.0004
+lam = 0.0005
 gamma = 0.1
-sigma = 20
+sigma = 0.1
 tmax = 100
 
 #----------------------------------Averaging of the series-----------------------------------------------------------
@@ -71,7 +71,7 @@ def sim_av_1(beta1,beta2,tr12,tr21):
     count=0
     num_iter=0
     while count<=50:
-        (t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,0,gamma,0,tr12,tr21,0)
+        (t1ser,t2ser,tot,tim)=SIR_functions.st_sim(beta1,beta2,N1,N2,lam,mu,gamma,0,tr12,tr21,0)
         num_iter += 1
         if numpy.max(t1ser) > 0.1*N1 and numpy.max(t2ser) > 0.1*N2:
             #series_t1.append(t1ser)
@@ -156,5 +156,5 @@ plt.plot(tr_val,seir,'ro-',label='Total R0 SEIR')
 plt.xlabel("Transfer rate")
 plt.ylabel("$R_{0}$ Values")
 plt.legend(loc='best')
-plt.savefig('I_20.png', format='png', orientation='landscape')
+plt.savefig('II.png', format='png', orientation='landscape')
 plt.close()
