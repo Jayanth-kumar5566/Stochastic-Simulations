@@ -53,10 +53,10 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
     R2Val[count]=R2
 
     while count < MAX and t < tmax and I1>0 and I2>=0:
-        Rate_S12E1 = beta1*S1*I1/(S1+E1+I1+R1)
+        Rate_S12E1 = (beta1*S1*I1)/(S1+E1+I1+R1)
         Rate_E12I1 = sigma*E1
         Rate_I12R1 = gamma*I1 
-        Rate_S22E2 = beta2*S2*I2/(S2+E2+I2+R2)
+        Rate_S22E2 = (beta2*S2*I2)/(S2+E2+I2+R2)
         Rate_E22I2 = sigma*E2
         Rate_I22R2 = gamma*I2
         Rate_S22S1 = tr21*S2
@@ -142,7 +142,6 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
         elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2+Death_S1+Death_S2:
             S2 -= 1
 
-            
         TVal[count]=t
         S1Val[count]=S1
         E1Val[count]=E1
@@ -179,6 +178,7 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
     ax[0].legend(loc='best')
     plt.show()
     '''
+    
     tot=I1Val+I2Val
     return (I1Val,I2Val,tot,TVal)
 #--------------------Preprocessing----------------------------------------------

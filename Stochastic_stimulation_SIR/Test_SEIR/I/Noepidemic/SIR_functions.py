@@ -9,7 +9,8 @@ import scipy.stats as ss
 import pandas
 import os
 #-----------------Sctochastic simulations------------------------
-def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
+def st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha):
+
     # Intial values:
     tmax = 100  #Default value can be changed if needed
     #print "Ro of city 1 =", beta1*N1/gamma
@@ -20,11 +21,9 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
     MAX=int(1e6)
     TVal=numpy.zeros(MAX,dtype=float)
     S1Val=numpy.zeros(MAX,dtype=int)
-    E1Val=numpy.zeros(MAX,dtype=int)
     I1Val=numpy.zeros(MAX,dtype=int)
     R1Val=numpy.zeros(MAX,dtype=int)
     S2Val=numpy.zeros(MAX,dtype=int)
-    E2Val=numpy.zeros(MAX,dtype=int)
     I2Val=numpy.zeros(MAX,dtype=int)
     R2Val=numpy.zeros(MAX,dtype=int)
 
@@ -33,50 +32,42 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
     count = 0
     t = 0
 
-    E1    = 0
     I1    = 1
     R1    = 0
-    S1    = N1-E1
-    E2    = 0
-    I2    = 0
+    S1    = N1-I1
+    I2    = 1
     R2    = 0
-    S2    = N2-E2
+    S2    = N2
 
     TVal[count]=t
     S1Val[count]=S1
-    E1Val[count]=E1
     I1Val[count]=I1
     R1Val[count]=R1
     S2Val[count]=S2
-    E2Val[count]=E2
     I2Val[count]=I2
     R2Val[count]=R2
 
-    while count < MAX and t < tmax and I1>0 and I2>=0:
-        Rate_S12E1 = beta1*S1*I1/(S1+E1+I1+R1)
-        Rate_E12I1 = sigma*E1
+    while count < MAX and t < tmax and I1>0 and I2>0:
+        Rate_S12I1 = (beta1*S1*I1)/(S1+I1+R1) +alpha*S1 
         Rate_I12R1 = gamma*I1 
-        Rate_S22E2 = beta2*S2*I2/(S2+E2+I2+R2)
-        Rate_E22I2 = sigma*E2
+        Rate_S22I2 = beta2*S2*I2/(S2+I2+R2) + alpha*S2
         Rate_I22R2 = gamma*I2
         Rate_S22S1 = tr21*S2
-        Rate_E22E1 = tr21*E2
+        Rate_I22I1 = tr21*I2
         Rate_R22R1 = tr21*R2
         Rate_S12S2 = tr12*S1
-        Rate_E12E2 = tr12*E1
+        Rate_I12I2 = tr12*I1
         Rate_R12R2 = tr12*R1
-        Birth_S1   = lam*(S1+E1+I1+R1)
-        Birth_S2   = lam*(S2+E2+I2+R2)
+        Birth_1    = mu*(S1+I1+R1)
+        Birth_2    = mu*(S2+I2+R2)
         Death_S1   = mu*S1
         Death_S2   = mu*S2
-        Death_E1   = mu*E1
-        Death_I1   = mu*I1
+        Death_I1   = (mu+omega)*I1
+        Death_I2   = (mu+omega)*I2
         Death_R1   = mu*R1
-        Death_E2   = mu*E2
-        Death_I2   = mu*I2
-        Death_R2   = mu*R2        
+        Death_R2   = mu*R2
 
-        K  = Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2+Death_S1+Death_S2
+        K  = Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1+Death_R2
 
         dt = -(1.0/K)*numpy.log(random.random())
 
@@ -85,100 +76,82 @@ def st_sim(beta1,beta2,lam,mu,N1,N2,gamma,sigma,tr12,tr21):
 
         r= random.random()*K
 
-        if r < Rate_S12E1:
+        if r < Rate_S12I1:
             S1 -= 1
-            E1 += 1
-        elif r < Rate_S12E1+Rate_E12I1:
-            E1 -= 1
             I1 += 1
-        elif r<  Rate_S12E1+Rate_E12I1+Rate_I12R1:
+        elif r < Rate_S12I1+Rate_I12R1:
             I1 -= 1
             R1 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2:
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2:
             S2 -= 1
-            E2 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2:
-            E2 -= 1
             I2 += 1
-        elif r< Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2:
-            I2 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2:
+            I2 -= 1
             R2 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1:
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1:
             S2 -= 1
             S1 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1:
-            E2 -= 1
-            E1 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1:
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1:
+            I2 -= 1
+            I1 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1:
             R2 -= 1
             R1 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2:
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2:
             S1 -= 1
             S2 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2:
-            E1 -= 1
-            E2 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2:
-            R1 -= 1
-            R2 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1:
-            S1 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2:
-            S2 += 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1:
-            E1 -= 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1:
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2:
             I1 -= 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1:
+            I2 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2:
             R1 -= 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2:
-            E2 -= 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2:
-            I2 -= 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2:
-            R2 -= 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2+Death_S1:
-            S1 -= 1
-        elif r < Rate_S12E1+Rate_E12I1+Rate_I12R1+Rate_S22E2+Rate_E22I2+Rate_I22R2+Rate_S22S1+Rate_E22E1+Rate_R22R1+Rate_S12S2+Rate_E12E2+Rate_R12R2+Birth_S1+Birth_S2+Death_E1+Death_I1+Death_R1+Death_E2+Death_I2+Death_R2+Death_S1+Death_S2:
-            S2 -= 1
-
-            
+            R2 += 1    
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1:
+            S1 += 1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2:
+            S2 +=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1:
+            S1 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2:
+            S2 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1:
+            I1 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2:
+            I2 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1:
+            R1 -=1
+        elif r < Rate_S12I1+Rate_I12R1+Rate_S22I2+Rate_I22R2+Rate_S22S1+Rate_I22I1+Rate_R22R1+Rate_S12S2+Rate_I12I2+Rate_R12R2+Birth_1+Birth_2+Death_S1+Death_S2+Death_I1+Death_I2+Death_R1+Death_R2:
+            R2 -=1
         TVal[count]=t
         S1Val[count]=S1
-        E1Val[count]=E1
         I1Val[count]=I1
         R1Val[count]=R1
         S2Val[count]=S2
-        E2Val[count]=E2
         I2Val[count]=I2
         R2Val[count]=R2
     TVal=TVal[:count+1]
     S1Val=S1Val[:count+1]
-    E1Val=E1Val[:count+1]
     I1Val=I1Val[:count+1]
     R1Val=R1Val[:count+1]
     S2Val=S2Val[:count+1]
-    E2Val=E2Val[:count+1]    
     I2Val=I2Val[:count+1]
     R2Val=R2Val[:count+1]
 
     #print 'Number of events = ',count
     #-------------------------------------------#
-    '''
+    ''' 
     fig,ax = plt.subplots(2,sharex=True)
     ax[0].plot(TVal,S1Val,'b-',label='S1')
-    ax[0].plot(TVal,E1Val,'k-',label='E1')    
     ax[0].plot(TVal,I1Val,'r-',label='I1')
     ax[0].plot(TVal,R1Val,'g-',label='R1')
     ax[1].plot(TVal,S2Val,'b-',label='S2')
-    ax[1].plot(TVal,E2Val,'k-',label='E2')        
     ax[1].plot(TVal,I2Val,'r-',label='I2')
     ax[1].plot(TVal,R2Val,'g-',label='R2')
     ax[1].set_xlabel('time')
     ax[1].legend(loc='best')
-    ax[0].legend(loc='best')
     plt.show()
-    '''
+    '''    
+    
     tot=I1Val+I2Val
     return (I1Val,I2Val,tot,TVal)
 #--------------------Preprocessing----------------------------------------------

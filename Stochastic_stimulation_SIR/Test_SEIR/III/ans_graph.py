@@ -10,11 +10,11 @@ N2 = 1000
 mu = 0
 lam =  0
 gamma = 0.1
-sigma = 20
+sigma = 200
 tmax = 100
 
 #----------------------------------Averaging of the series-----------------------------------------------------------
-def sim_av(beta1,beta2,tr12,tr21):
+def sim_av(beta1,beta2,tr12,tr21,output):
     series_t1=[]
     series_t2=[]
     series_total=[]
@@ -61,9 +61,9 @@ def sim_av(beta1,beta2,tr12,tr21):
     '''
     #-------------
     #return [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]
-    return [(ser_tot,tim_tot)]
+    output.put([(ser_tot,tim_tot)])
 #--------------------------------------------------------------------------------------------------
-def sim_av_1(beta1,beta2,tr12,tr21):
+def sim_av_1(beta1,beta2,tr12,tr21,output):
     #series_t1=[]
     #series_t2=[]
     series_total=[]
@@ -110,10 +110,10 @@ def sim_av_1(beta1,beta2,tr12,tr21):
     '''
     #-------------
     #return [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]
-    return [(ser_tot,tim_tot)]
+    output.put([(ser_tot,tim_tot)])
 
 #---------------------------------Fitting--------------------------------------------------------------------------------
-def fit(ser,tim):
+def fit((ser,tim)):
     y=SEIR_functions.preprocessing(ser)
     x=SEIR_functions.finding_point(ser,tim,'max')
     '''
@@ -129,32 +129,37 @@ def fit(ser,tim):
     plt.show()
     '''
     #-------------
-    return sl
+    return sl[1]
 #-------------------------------------------------------------------------------------------
 
 beta1=1.5
 beta2=0.8
-tr_val=[0.005,0.1,0.2,0.3,0.4,0.5,0.6]
+tr_val=numpy.linspace(1e-7,0.7,50)
+
+import multiprocessing as mp
+count=0
 seir=[]
 sir=[]
 for (n,m) in zip(tr_val,tr_val):
     print "Transfer value and simulating", n
-    [(seir_tot,seir_tim_tot)]=sim_av(beta1,beta2,n,m)
-    [(sir_tot,sir_tim_tot)]=sim_av_1(beta1,beta2,n,m)
+    output=mp.Queue()
+    output1=mp.Queue()
+    p1=mp.Process(target=sim_av,args=(beta1,beta2,n,n,output))
+    p1.start()
+    p2=mp.Process(target=sim_av_1,args=(beta1,beta2,n,n,output1))
+    p2.start()
+    [(seir_tot,seir_tim_tot)]=output.get()
+    [(sir_tot,sir_tim_tot)]=output1.get()
     print "Fitting"
-    zz=fit(seir_tot,seir_tim_tot)
-    yy=fit(sir_tot,sir_tim_tot)
-    seir.append(1+(zz[1]/gamma))
-    sir.append(1+(yy[1]/gamma))
-    print "SEIR", seir
-    print "SIR", sir
-
+    (zz,yy)=map(fit,[(seir_tot,seir_tim_tot),(sir_tot,sir_tim_tot)])
+    seir.append(1+(zz/gamma))
+    sir.append(1+(yy/gamma))
 plt.clf()
 plt.figure(figsize=(30,15))
-plt.plot(tr_val,sir,'bo-',label='SIR totalR0')
-plt.plot(tr_val,seir,'ro-',label='Total R0 SEIR')
+plt.plot(tr_val,sir,'bo',label='SIR totalR0')
+plt.plot(tr_val,seir,'ro',label='Total R0 SEIR')
 plt.xlabel("Transfer rate")
 plt.ylabel("$R_{0}$ Values")
 plt.legend(loc='best')
-plt.savefig('III_20.png', format='png', orientation='landscape')
+plt.savefig('III_200_high_res.png', format='png', orientation='landscape')
 plt.close()
