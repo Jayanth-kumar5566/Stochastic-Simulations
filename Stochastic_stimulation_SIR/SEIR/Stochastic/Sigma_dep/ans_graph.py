@@ -113,7 +113,12 @@ yy=fit(ser_tot,tim_tot)
 print "Total Ro", 1+(yy[1]/gamma)
 '''
 
-
+def new_R(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
+    x=(e+sig+mu)*(b1*sig+b2*sig)
+    y=2*e*mu+(mu**2)+2*e*sig+2*sig*mu+(sig**2)
+    num=(((x**2)-4*b1*b2*y*(sig**2))**0.5)+x
+    den= 2*y*(g+mu)
+    return (lam/mu)*(num/den)
 
 tr_val=numpy.linspace(0,0.9,10)
 beta1=0.8
@@ -129,14 +134,17 @@ plt.figure(figsize=(30,15))
 sig=[0.1,1,10,100,1000]
 for sigma in sig[::-1]:
     z=[]
+    theory=[]
     for n in tr_val:
         print "Transfer value and simulating", n
         [(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,n,sigma)
         print "Fitting"
         zz=fit(ser_tot,tim_tot)
-        z.append(1+(zz[1]/gamma))
-    plt.plot(tr_val,z,'-o',label=str(sigma))
+        z.append((1+(zz[1]/gamma))*numpy.exp(zz[1]*1/sigma))
+        theory.append(new_R(lam,mu,n,gamma,sigma,beta1,beta2,N1,N2))
+    plt.plot(tr_val,z,'-o',label="Calc"+str(sigma))
+    plt.plot(tr_val,theory,'-*',label="Theory"+str(sigma))
 
 plt.legend(loc='best')
-plt.savefig('graph7.png', format='png', orientation='landscape')
+plt.savefig('final.png', format='png', orientation='landscape')
 plt.close()

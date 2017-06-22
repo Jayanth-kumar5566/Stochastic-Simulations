@@ -64,9 +64,9 @@ def fit(ser,tim):
     x=SEIR_functions.finding_point(ser,tim,'max')
     #x2=SEIR_functions.finding_point(ser,tim,'slope')
     #x=max(x1,x2)
-
+    '''
     plt.plot(tim[:x],numpy.log(ser[:x]),'b-',label='orginal series')
-
+    '''
     ser=ser[y:x]
     time=tim[y:x]
 
@@ -79,11 +79,11 @@ def fit(ser,tim):
 
     sl=SEIR_functions.Rcode(time,ser)
     #--------------If needed to check fit
-
+    '''
     plt.plot(time,SEIR_functions.y_sl(time,sl[1],sl[0]),'k-',label='R code')
     plt.legend(loc='best')
     plt.show()
-
+    '''
     #-------------
     return sl
 #-------------------------------------------------------------------------------------------
@@ -94,31 +94,31 @@ def R_eff(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
     den= 2*y*(g+mu)
     return (lam/mu)*(num/den)
 def R(beta,gamma,sigma,mu,lam,N):
-    return (beta*sigma)/((gamma+mu)*(mu+sigma))
+    return (beta*sigma*lam)/((gamma+mu)*(mu+sigma)*mu)
 
 
 e=0
 N1 = 1000
 N2 = 1000
-mu = 0
-lam = 0
+mu = 0.00000001
+lam = 0.00000001
 gamma = 0.1
-sigma = 100
+sigma = 1
 tmax = 100
 beta1=0.8
 beta2=1.5
 print "===========Theoritical caluclation====================="
-print "City 1 R0", (beta1*sigma)/((gamma+mu)*(sigma+mu))
-print "City 2 R0", (beta2*sigma)/((gamma+mu)*(sigma+mu))
+print "City 1 R0", (beta1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
+print "City 2 R0", (beta2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
 #print "Total R0", new_R(lam,mu,e,gamma,sigma,beta1,beta2,N1,N2)
 print "===============Numerical Calculations================="
 [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,e,e)
 zz=fit(ser_t1,tim_t1)
-print "City 1 R0", 1+(zz[1]/gamma)
+print "City 1 R0", numpy.exp(zz[1]*1/(sigma+gamma))
 xx=fit(ser_t2,tim_t2)
-print "City 2 R0", 1+(xx[1]/gamma)
+print "City 2 R0", numpy.exp(xx[1]*1/(sigma+gamma))
 yy=fit(ser_tot,tim_tot)
-print "Total Ro", 1+(yy[1]/gamma)
+print "Total Ro",  numpy.exp(yy[1]*1/(sigma+gamma))
 
 
 '''
@@ -132,8 +132,8 @@ beta1=0.8
 beta2=1.5
 N1 = 1000
 N2 = 1000
-mu = 0
-lam = 0
+mu = 0.0004
+lam = 0.0005
 gamma = 0.1
 sigma = 0.5
 tmax = 100
@@ -147,8 +147,8 @@ for n in tr_val:
     zz=fit(ser_tot,tim_tot)
     x.append(xx)
     y.append(yy)
-    z.append(1+(zz[1]/gamma))
-    print "Calculated Total", 1+(zz[1]/gamma)
+    z.append ((1+(zz[1]/gamma))*numpy.exp(zz[1]*1/sigma))
+    #print "Calculated Total", 1+(zz[1]/gamma)
     #r1.append(1+(r1_[1]/gamma))
     #r2.append(1+(r2_[1]/gamma))
 x=numpy.array(x)
@@ -168,6 +168,6 @@ plt.plot(tr_val,me,'g-',label='mean of ro')
 plt.plot(tr_val,ma,'r-',label='max of the ro')
 plt.plot(tr_val,mi,'k-',label='min of the ro')
 plt.legend(loc='best')
-plt.savefig('graph8_mu0_lam0.png', format='png', orientation='landscape')
+plt.savefig('plot_city2.png', format='png', orientation='landscape')
 plt.close()
 '''
