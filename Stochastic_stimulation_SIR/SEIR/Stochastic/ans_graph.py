@@ -96,61 +96,62 @@ def R_eff(lam,mu,e,g,sig,b1,b2,n1=1000,n2=1000):
 def R(beta,gamma,sigma,mu,lam,N):
     return (beta*sigma*lam)/((gamma+mu)*(mu+sigma)*mu)
 
-
 e=0
 N1 = 1000
 N2 = 1000
-mu = 0.00000001
-lam = 0.00000001
+mu = 1e-7
+lam = 1e-7
 gamma = 0.1
-sigma = 1
+sigma = 0.8
 tmax = 100
 beta1=0.8
 beta2=1.5
 print "===========Theoritical caluclation====================="
 print "City 1 R0", (beta1*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
 print "City 2 R0", (beta2*sigma*lam)/((gamma+mu)*(sigma+mu)*mu)
-#print "Total R0", new_R(lam,mu,e,gamma,sigma,beta1,beta2,N1,N2)
+print "Total R0", R_eff(lam,mu,e,gamma,sigma,beta1,beta2,N1,N2)
 print "===============Numerical Calculations================="
 [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,e,e)
 zz=fit(ser_t1,tim_t1)
-print "City 1 R0", numpy.exp(zz[1]*1/(sigma+gamma))
+print "City 1 R0", (1+(zz[1]/gamma))*(1+(zz[1]/sigma))
 xx=fit(ser_t2,tim_t2)
-print "City 2 R0", numpy.exp(xx[1]*1/(sigma+gamma))
+print "City 2 R0", (1+(xx[1]/gamma))*(1+(xx[1]/sigma))
 yy=fit(ser_tot,tim_tot)
-print "Total Ro",  numpy.exp(yy[1]*1/(sigma+gamma))
-
-
+print "Total Ro",  (1+(yy[1]/gamma))*(1+(yy[1]/sigma))
 '''
-tr_val=numpy.linspace(0,0.9,10)
+
+
+tr_val=numpy.linspace(0.1,0.9,10)
 x=[]
 y=[]
 z=[]
-#r1=[]
-#r2=[]
+r1=[]
+r2=[]
 beta1=0.8
 beta2=1.5
 N1 = 1000
 N2 = 1000
-mu = 0.0004
-lam = 0.0005
+mu = 1e-7
+lam = 1e-7
 gamma = 0.1
-sigma = 0.5
+sigma = 0.8
 tmax = 100
 for n in tr_val:
     print "Transfer value and simulating", n
-    #[(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,n)
-    [(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,n)
+    [(ser_t1,tim_t1),(ser_t2,tim_t2),(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,n)
+    #[(ser_tot,tim_tot)]=sim_av(beta1,beta2,n,n)
     xx=R(beta1,gamma,sigma,mu,lam,N1)
     yy=R(beta2,gamma,sigma,mu,lam,N2)
     print "Fitting"
     zz=fit(ser_tot,tim_tot)
     x.append(xx)
     y.append(yy)
-    z.append ((1+(zz[1]/gamma))*numpy.exp(zz[1]*1/sigma))
+    z.append ((1+(zz[1]/gamma))*(1+(zz[1]/sigma)))
     #print "Calculated Total", 1+(zz[1]/gamma)
-    #r1.append(1+(r1_[1]/gamma))
-    #r2.append(1+(r2_[1]/gamma))
+    r1_=fit(ser_t1,tim_t1)
+    r1.append((1+(r1_[1]/gamma))*(1+(r1_[1]/sigma)))
+    r2_=fit(ser_t2,tim_t2)
+    r2.append((1+(r2_[1]/gamma))*(1+(r2_[1]/sigma)))
 x=numpy.array(x)
 y=numpy.array(y)
 z=numpy.array(z)
@@ -159,15 +160,23 @@ me=(x+y)/2.0
 ma=numpy.maximum.reduce([x,y])
 mi=numpy.minimum.reduce([x,y])
 
+file=open("values.csv",'w')
+file.write("transfer_values,mean,max,min,city1_ro,city2_ro,total_ro\n")
+for i in range(len(tr_val)):
+    file.write(str(tr_val[i])+','+str(me[i])+','+str(ma[i])+','+str(mi[i])+','+str(r1[i])+','+str(r2[i])+','+str(z[i])+'\n')
+
+file.close()
+
 plt.clf()
 plt.figure(figsize=(30,15))
 plt.plot(tr_val,z,'bo',label='actual total0')
-#plt.plot(tr_val,r1,'k*',label='r1 cal')
-#plt.plot(tr_val,r2,'mv',label='r2 cal')
+plt.plot(tr_val,r1,'k*',label='r1 cal')
+plt.plot(tr_val,r2,'mv',label='r2 cal')
 plt.plot(tr_val,me,'g-',label='mean of ro')
 plt.plot(tr_val,ma,'r-',label='max of the ro')
 plt.plot(tr_val,mi,'k-',label='min of the ro')
 plt.legend(loc='best')
+plt.title("$\sigma=0.8,\gamma=0.1$")
 plt.savefig('plot_city2.png', format='png', orientation='landscape')
 plt.close()
 '''
