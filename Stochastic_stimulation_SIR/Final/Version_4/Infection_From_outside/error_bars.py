@@ -21,7 +21,9 @@ std_ro=[]
 for e in [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]:
     count=0
     r=[]
-    while count<5:
+    while count<100:
+        (t1ser,t2ser,totser,time)=sfunc.st_sim(beta1,beta2,N1,N2,mu,gamma,omega,e,e,alpha)
+        '''
         avg_count=0
         total_series=[]
         time_ser=[]
@@ -31,11 +33,11 @@ for e in [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]:
                 total_series.append(totser)
                 time_ser.append(time)
                 avg_count += 1
-                '''
+
                 plt.plot(time,t1ser)
                 plt.plot(time,t2ser)
                 plt.show()
-                '''
+
         total_series_cut=[]
         time_ser_cut=[]
         y=max(map(sfunc.preprocessing,total_series))
@@ -43,13 +45,16 @@ for e in [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]:
         for i in range(len(total_series)):
             total_series_cut.append(total_series[i][y:x])
             time_ser_cut.append(time_ser[i][y:x])
-        (ser,t)=sfunc.avg_ser(total_series_cut,time_ser_cut)
 
+        (ser,t)=sfunc.avg_ser(total_series_cut,time_ser_cut)'''
+        y=sfunc.preprocessing(totser)
+        x=sfunc.finding_point(totser,time)
+        ser=totser[y:x]
+        t=time[y:x]
+        
         '''
         plt.plot(time[:x],numpy.log(ser[:x]),'b-',label='orginal series')
         '''
-        ser=ser[y:x]
-        t=time[y:x]
         try:
             (intercept,slope,rsq)=sfunc.Rcode(t,ser)
         except:
@@ -77,6 +82,7 @@ plt.errorbar(tr_val, total_ro, yerr=std_ro, fmt='o')
 plt.plot(tr_val,[1.05]*len(tr_val),'-')
 plt.show()
 '''
+
 file=open("values_2.csv",'w')
 file.write("tr_val,total_r0,std\n")
 for i in range(len(tr_val)):

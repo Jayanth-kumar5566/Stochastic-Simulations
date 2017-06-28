@@ -47,7 +47,7 @@ def st_sim(beta1,beta2,N1,N2,mu,gamma,omega,tr12,tr21,alpha):
     I2Val[count]=I2
     R2Val[count]=R2
 
-    while count < MAX and t < tmax and I1>=0 and I2>=0:
+    while count < MAX and t < tmax and (I1+I2)<0.4*(N1+N2):
         Rate_S12I1 = beta1*S1*I1/(S1+I1+R1) +alpha*S1 
         Rate_I12R1 = gamma*I1 
         Rate_S22I2 = beta2*S2*I2/(S2+I2+R2) +alpha*S2

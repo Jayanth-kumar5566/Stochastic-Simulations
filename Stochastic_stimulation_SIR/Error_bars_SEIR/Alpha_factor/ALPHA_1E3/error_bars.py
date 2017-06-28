@@ -10,7 +10,7 @@ N1=10000
 N2=10000
 gamma=0.1
 sigma=1
-alpha=1e-4
+alpha=1e-3
 #e=0
 #------ -------------------------------------------------------------------------------
 tr_val=[]
@@ -79,11 +79,11 @@ for e in [0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]:
     print (numpy.mean(r),numpy.std(r))
 
  
-
+'''
 plt.errorbar(tr_val, total_ro, yerr=std_ro, fmt='o')
 plt.plot(tr_val,[0.612970334961301]*len(tr_val),'-')
 plt.show()
-
+'''
 file=open("values.csv",'w')
 file.write("tr_val,total_r0,std\n")
 for i in range(len(tr_val)):
