@@ -1,0 +1,9 @@
+#------------Functions that will be used--------------------------
+
+#---------Importing modules-------------------------------------
+from __future__ import division
+import numpy
+import random 
+import matplotlib.pyplot as plt
+from pandas import Series
+import scipy.stats as ss

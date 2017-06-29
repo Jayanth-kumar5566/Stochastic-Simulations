@@ -1,0 +1,38 @@
+import matplotlib.pyplot as plt
+from __future__ import division
+file=open("series1.csv")
+a=file.read_lines()
+a=a[0].strip(',')
+a=a.split(',')
+count =0
+for i in a:
+    a[count]=int(i)
+    count += 1
+gamma=0.4
+t1ser=a
+#t2ser=I2Val[:count]
+plt.plot(t1ser)
+plt.show()
+from pandas import Series
+ser=Series(data=t1ser)#Selects non zero entries
+cut_ser=ser[(ser.T != 0)]
+plt.plot(cut_ser)
+plt.show()
+window=5
+avg_ser=cut_ser.rolling(window=window).mean()
+plt.plot(avg_ser[:30])
+plt.plot(numpy.log(avg_ser[:30]),'o')
+plt.show()
+import statsmodels.api as sm
+import scipy
+ts=numpy.log(avg_ser[window-1:30])
+X=ts.to_dict().values()
+Y=ts.to_dict().keys()
+print "Pearsons r= ",scipy.stats.pearsonr(X,Y)[0]
+print "P value P= ",scipy.stats.pearsonr(X,Y)[1]
+X = sm.add_constant(X)
+model = sm.OLS(Y,X)
+results = model.fit()
+lamb=results.params[1]
+tau=1/gamma
+print "the Ro is", 1+lamb*tau
