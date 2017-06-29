@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2017.3.10)  29 JUN 2017 16:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2015/dev/Debian) (preloaded format=pdflatex 2017.6.13)  29 JUN 2017 22:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -111,424 +111,253 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 \mathdisplay@stack=\toks18
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/04/25 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/05/08 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+)
+\Gin@req@height=\dimen112
+\Gin@req@width=\dimen113
+)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count103
+\float@exts=\toks20
+\float@box=\box28
+\@float@everytoks=\toks21
+\@floatcapt=\box29
 ) (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
-LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
+LaTeX Font Info:    ... okay on input line 8.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count103
-\scratchdimen=\dimen112
-\scratchbox=\box28
-\nofMPsegments=\count104
-\nofMParguments=\count105
-\everyMPshowfont=\toks19
-\MPscratchCnt=\count106
-\MPscratchDim=\dimen113
-\MPnumerator=\count107
-\makeMPintoPDFobject=\count108
-\everyMPtoPDFconversion=\toks20
+\scratchcounter=\count104
+\scratchdimen=\dimen114
+\scratchbox=\box30
+\nofMPsegments=\count105
+\nofMParguments=\count106
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count107
+\MPscratchDim=\dimen115
+\MPnumerator=\count108
+\makeMPintoPDFobject=\count109
+\everyMPtoPDFconversion=\toks23
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
-Underfull \hbox (badness 10000) in paragraph at lines 65--69
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+<table1.PNG, id=1, 412.54124pt x 295.85532pt>
+File: table1.PNG Graphic file (type png)
+ <use table1.PNG>
+Package pdftex.def Info: table1.PNG used on input line 39.
+(pdftex.def)             Requested size: 206.27011pt x 147.92729pt.
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./table1.PNG>]
+<sir_im.png, id=20, 796.47563pt x 597.73312pt>
+File: sir_im.png Graphic file (type png)
+ <use sir_im.png>
+Package pdftex.def Info: sir_im.png used on input line 69.
+(pdftex.def)             Requested size: 278.77065pt x 209.20972pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 71--72
 
  []
 
-[1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 91.
+Underfull \hbox (badness 10000) in paragraph at lines 79--81
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+ []
+
+<Stochstic_sim.png, id=21, 1233.6489pt x 662.7159pt>
+File: Stochstic_sim.png Graphic file (type png)
+ <use Stochstic_sim.png>
+Package pdftex.def Info: Stochstic_sim.png used on input line 86.
+(pdftex.def)             Requested size: 469.75502pt x 252.35037pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2 <./sir_im.png>]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 107.
+
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
- [2] [3] [4]
-Underfull \hbox (badness 10000) in paragraph at lines 210--212
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 107.
+
+[3 <./Stochstic_sim.png>] <result1.png, id=36, 2168.1pt x 1084.05pt>
+File: result1.png Graphic file (type png)
+
+<use result1.png>
+Package pdftex.def Info: result1.png used on input line 155.
+(pdftex.def)             Requested size: 516.73338pt x 258.35777pt.
+
+Overfull \hbox (46.97836pt too wide) in paragraph at lines 155--156
+[][] 
+ []
+
+[4] <seir_im.png, id=42, 796.47563pt x 597.73312pt>
+File: seir_im.png Graphic file (type png)
+ <use seir_im.png>
+Package pdftex.def Info: seir_im.png used on input line 162.
+(pdftex.def)             Requested size: 199.11842pt x 149.4329pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 164--165
+
+ []
+
+[5 <./result1.png> <./seir_im.png>]
+<long_run.png, id=48, 1734.48pt x 867.24pt>
+File: long_run.png Graphic file (type png)
+ <use long_run.png>
+Package pdftex.def Info: long_run.png used on input line 198.
+(pdftex.def)             Requested size: 469.75502pt x 234.87251pt.
+
+<city1_inf.png, id=49, 1734.48pt x 867.24pt>
+File: city1_inf.png Graphic file (type png)
+ <use city1_inf.png>
+Package pdftex.def Info: city1_inf.png used on input line 200.
+(pdftex.def)             Requested size: 469.75502pt x 234.87251pt.
+
+<city2_inf.png, id=50, 1734.48pt x 867.24pt>
+File: city2_inf.png Graphic file (type png)
+ <use city2_inf.png>
+Package pdftex.def Info: city2_inf.png used on input line 204.
+(pdftex.def)             Requested size: 469.75502pt x 234.87251pt.
+ [6] [7 <./long_run.png> <./city1_inf.png>] [8 <./city2_inf.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 251--253
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 212--213
+Underfull \hbox (badness 10000) in paragraph at lines 253--254
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 217--219
+Underfull \hbox (badness 10000) in paragraph at lines 258--260
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 220--222
+Underfull \hbox (badness 10000) in paragraph at lines 261--263
 
  []
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.226     $\beta
-                _{1} N_{1}$ & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.226     $\beta_{1} N_{1}$ &
-                              0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.227     0 & $\beta
-                    _{2} N_{2}$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.227     0 & $\beta_{2} N_{2}$ \\
-                                  
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.234     $-\gamma
-                   -\mu - \epsilon$ & $\epsilon$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.234     $-\gamma -\mu - \epsilon$ &
-                                      $\epsilon$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.234     $-\gamma -\mu - \epsilon$ & $\epsilon
-                                               $ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.234 ...$-\gamma -\mu - \epsilon$ & $\epsilon$ \\
-                                                  
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.235     $\epsilon
-                   $ & $-\gamma -\mu -\epsilon$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.235     $\epsilon$ &
-                       $-\gamma -\mu -\epsilon$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.235     $\epsilon$ & $-\gamma
-                                -\mu -\epsilon$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.235     $\epsilon$ & $-\gamma -\mu -\epsilon$ \\
-                                                  
-? 
-
-Underfull \hbox (badness 10000) in paragraph at lines 245--246
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 290--291
 
  []
 
-[5]
-! Undefined control sequence.
-l.256   $$V_{1}=-\mu E_{1} -\sigma \E
-                                     _{1}, V_{2}=\sigma E_{1} -\gamma I_{1} ...
 
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.257 ...$\mathcal{V}$ at DFE \textit{S_{1}=N_{1}}
-                                                   \newline
-? 
-! Extra }, or forgotten $.
-<recently read> \egroup 
-                        
-l.257 ...$\mathcal{V}$ at DFE \textit{S_{1}=N_{1}}
-                                                   \newline
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.258 \center
-             
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.258 \center
-             
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.262     0 & $\beta
-                    _{1} N_{1}$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.262     0 & $\beta_{1} N_{1}$ \\
-                                  
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.270     $ -\sigma
-                    -\mu$ & 0  \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.270     $ -\sigma -\mu$ &
-                            0  \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.271     $\sigma
-                 $ & $-\gamma -\mu$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.271     $\sigma$ &
-                     $-\gamma -\mu$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.271     $\sigma$ & $-\gamma
-                              -\mu$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.271     $\sigma$ & $-\gamma -\mu$ \\
-                                      
-? 
-! Undefined control sequence.
-l.282 ...\epsilon E_{2} -\epsilon E_{1} -\sigma \E
-                                                  _{1}, V_{2}=\sigma E_{1} -...
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 
-? 
-! Undefined control sequence.
-l.283 ...\epsilon E_{1} -\epsilon E_{2} -\sigma \E
-                                                  _{2}, V_{4}=\sigma E_{2} -...
+ []
 
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.285 ... DFE \textit{S_{1}=N_{1} and S_{2}=I_{2}}
-                                                   \newline
-? 
-! Extra }, or forgotten $.
-<recently read> \egroup 
-                        
-l.285 ... DFE \textit{S_{1}=N_{1} and S_{2}=I_{2}}
-                                                   \newline
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.286 
-      
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.286 
-      
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.291     0 & $\beta
-                    _{1} N_{1}$ & 0 &   0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.291     0 & $\beta_{1} N_{1}$ &
-                                  0 &   0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.293     0 &  0                & 0 &  $\beta
-                                             _{2} N_{2}$ \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.293 ...              & 0 &  $\beta_{2} N_{2}$ \\
-                                                  
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.302     $ -\sigma
-                    -\mu -\epsilon$  & 0 & $\epsilon $ & 0  \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.302     $ -\sigma -\mu -\epsilon$  &
-                                       0 & $\epsilon $ & 0  \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.302 ... -\sigma -\mu -\epsilon$  & 0 & $\epsilon
-                                                   $ & 0  \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.302 ...igma -\mu -\epsilon$  & 0 & $\epsilon $ &
-                                                   0  \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.303     $\sigma
-                 $ & $-\gamma -\mu$  & 0 & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.303     $\sigma$ &
-                     $-\gamma -\mu$  & 0 & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.303     $\sigma$ & $-\gamma
-                              -\mu$  & 0 & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.303     $\sigma$ & $-\gamma -\mu$  &
-                                       0 & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.304     $\epsilon
-                   $ & 0 & $-\sigma -\epsilon -\mu$ & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.304     $\epsilon$ &
-                       0 & $-\sigma -\epsilon -\mu$ & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.304     $\epsilon$ & 0 & $-\sigma
-                                    -\epsilon -\mu$ & 0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.304 ...epsilon$ & 0 & $-\sigma -\epsilon -\mu$ &
-                                                   0 \\
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.305     0 & 0 & $\sigma
-                         $ & $-\mu -\gamma$
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.305     0 & 0 & $\sigma$ &
-                             $-\mu -\gamma$
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.305     0 & 0 & $\sigma$ & $-\mu
-                                   -\gamma$
-? 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.306   \end{bmatrix}
-                     
-? 
-
-! LaTeX Error: \begin{itemize} on input line 252 ended by \end{document}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.312 \end{document}
-                    
-? 
-[6] (./report.aux) )
-(\end occurred inside a group at level 1)
-
-### semi simple group (level 1) entered at line 252 (\begingroup)
-### bottom level 
+[10] [11] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 1695 strings out of 493105
- 20864 string characters out of 6137072
- 83692 words of memory out of 5000000
- 5177 multiletter control sequences out of 15000+600000
+ 2362 strings out of 493105
+ 31632 string characters out of 6137072
+ 98910 words of memory out of 5000000
+ 5779 multiletter control sequences out of 15000+600000
  11468 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 27i,7n,20p,328b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on report.pdf (6 pages, 222622 bytes).
+ 37i,8n,23p,328b,244s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
+x9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on report.pdf (11 pages, 607885 bytes).
 PDF statistics:
- 99 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
+ 133 PDF objects out of 1000 (max. 8388607)
+ 84 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

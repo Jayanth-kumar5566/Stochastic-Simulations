@@ -3,6 +3,8 @@
 \usepackage{color}
 \usepackage[affil-it]{authblk}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
 \begin{document}
 \author{Jayanth Kumar N}
 \affil{Indian Institute of Science Education and Research, Pune}
@@ -32,9 +34,10 @@ represents the average number of infections an infected individual can
 cause over its infectious period in an uninfected population. A paper
 by Jesan,Menon and Sinha use the incidence data to calaculate the
 $R_{0}$ of swine flu in India assuming the SIR model.
-
-%To add the figure of the table here%
-
+\begin{figure}[h]
+  \centering
+\includegraphics[scale=0.5]{table1}
+\end{figure}
 We see that in the table from their paper that the $R_{0}$ of India
 which was calculated to be 1.45 is not the average of the $R_{0}$ of
 the individual cities. So here in this article we try to find out this
@@ -61,15 +64,28 @@ Analyically we will try to use next generation operator method on the
 system of equation to derive the total $R_{0}$ of the system in the
 last part of this article.
 \section{Modelling using SIR model}
-% Insert the figure here(City 1 and City 2)
+\begin{figure}[h]
+  \centering
+\includegraphics[scale=0.35]{sir_im}
+\end{figure}
 \textbf{Equations} \newline
-%add all the equations
+$$\frac{dS_{1}}{dt}=\lambda(S_{1}+I_{1}+R_{1}) -\mu  S_{1} - \beta_{1} S_{1}I_{1}  + \epsilon S_{2} -\epsilon S_{1} $$  
+$$\frac{dI_{1}}{dt}= -\mu  I_{1} + \beta_{1} S_{1}I_{1}  + \epsilon I_{2} -\epsilon I_{1} -\gamma I_{1} $$ 
+$$\frac{dR_{1}}{dt}= -\mu  R_{1} +  \epsilon R_{2} -\epsilon R_{1} +\gamma I_{1} $$ 
+$$\frac{dS_{2}}{dt}=\lambda(S_{2}+I_{2}+R_{2}) -\mu  S_{2} - \beta_{2} S_{2}I_{2}  + \epsilon S_{1} -\epsilon S_{2} $$  
+$$\frac{dI_{2}}{dt}= -\mu  I_{2} + \beta_{2} S_{2}I_{2}  + \epsilon I_{1} -\epsilon I_{2} -\gamma I_{2} $$ 
+$$\frac{dR_{2}}{dt}= -\mu  R_{2} +  \epsilon R_{1} -\epsilon R_{2} +\gamma I_{2} $$ 
+
 where $\lambda$ is the birth rate,$\mu$ is the death rate,$\gamma$ is
 the recovery rate and $\beta_{i}$ is the contact rate in city i. \newline
 
 The above model was stochastically simulated using Gillespe
 algoritm. Below is the graph of one such simulation.
-%Add the graph here
+\begin{figure}[h]
+  \centering
+\includegraphics[width=\textwidth]{Stochstic_sim}
+\end{figure}
+
 Using this simulation we can obtain the time series of the infected
 individuals in each city and for the system(by adding the individual
 time series). We now try to figure out the relation between the
@@ -135,11 +151,27 @@ $M(t)=\frac{\lambda}{\lambda-t}$. So
 \end{equation}
 Hence using the above relation we can find the $R_{0}$ of the system numerically.
 \subsection{Results}
-%attach the graph
+\begin{figure}[H]
+\includegraphics[width=1.1 \textwidth]{result1}
+\end{figure}
+%Generate a good graph with error bars here
 \section{Modelling using SEIR model}
-%Insert the figure from the presentation
+\subsection{Results}
+\begin{figure}[H]
+  \centering
+\includegraphics[scale=0.25]{seir_im}
+\end{figure}
 \textbf{Equations} \newline
-% Insert Equations
+$$\frac{dS_{1}}{dt}=\lambda(S_{1}+E_{1}+I_{1}+R_{1}) -\mu  S_{1} - \beta_{1} S_{1}I_{1}  + \epsilon S_{2} -\epsilon S_{1} $$
+$$\frac{dE_{1}}{dt}= -\mu  E_{1} + \beta_{1} S_{1}I_{1}  + \epsilon E_{2} -\epsilon E_{1} -\sigma  E_{1} $$
+$$\frac{dI_{1}}{dt}= \sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
+$$\frac{dR_{1}}{dt}= -\mu  R_{1} +  \epsilon R_{2} -\epsilon R_{1} +\gamma I_{1} $$
+
+$$\frac{dS_{2}}{dt}=\lambda(S_{2}+E_{2}+I_{2}+R_{2}) -\mu  S_{2} - \beta_{2} S_{2}I_{2}  + \epsilon S_{1} -\epsilon S_{2} $$
+$$\frac{dE_{2}}{dt}= -\mu  E_{2} + \beta_{2} S_{2}I_{2}  + \epsilon E_{1} -\epsilon E_{2} -\sigma  E_{2} $$
+$$\frac{dI_{2}}{dt}= \sigma E_{2} -\gamma I_{2} -\mu I_{2}$$
+$$\frac{dR_{2}}{dt}= -\mu  R_{2} +  \epsilon R_{1} -\epsilon R_{2} +\gamma I_{2} $$
+
 Where $\sigma$ denotes the rate of getting infectious from exposed,
 all other symbols denotes the same. As you can see we have restricted
 the migration of Infected indiciduals between the cites. So the
@@ -162,7 +194,16 @@ R_{0}=(1+\frac{r}{\gamma})(1+\frac{r}{\sigma})
 \end{equation}
 Using Eq(5) instead of Eq(4) and similar analysis as SIR model gave us the following result.
 \section{Results}
-%Add the graphs
+\begin{figure}[H]
+  \includegraphics[width=\textwidth]{long_run}
+\caption{with infection starting in both the cities}
+\includegraphics[width=\textwidth]{city1_inf}
+\caption{with infection starting at city1}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\textwidth]{city2_inf}
+\caption{with infection staring at city2}
+\end{figure}  
 \section{Theoritical derivation}
 \subsection{The Next generation operator method}
 $R_{0}$ is defined as the spectral radius of the 'next generation
@@ -223,26 +264,31 @@ Similarlly for City 2
     \[
 \mathcal{F}=
   \begin{bmatrix}
-    $\beta_{1} N_{1}$ & 0 \\
-    0 & $\beta_{2} N_{2}$ \\
+    \beta_{1} N_{1} & 0 \\
+    0 & \beta_{2} N_{2} \\
   \end{bmatrix}
 \]
  
 \[
 \mathcal{V}=
   \begin{bmatrix}
-    $-\gamma -\mu - \epsilon$ & $\epsilon$ \\
-    $\epsilon$ & $-\gamma -\mu -\epsilon$ \\
+    -\gamma -\mu - \epsilon & \epsilon \\
+    \epsilon & -\gamma -\mu -\epsilon \\
   \end{bmatrix}
 \]
 \end{itemize}
-The Eigen values of $\mathcal{F}\mathcal{V}^{-1}$ was calculated using mathematica,
+The Eigen values of $\mathcal{F}\mathcal{V}^{-1}$ was calculated using sage,
 
 The spectral radius defined as the absolute value of the largest eigen value turns out to be
-$$R_{0}=\frac{X+\sqrt{X^{2}-4\beta_{1}\beta{2}N_{1}N_{2}Y}}{2Y}$$ where $X=(\beta_{1} N_{1}+\beta{2} N_{2}))(\epsilon+\mu+\gamma)$ and $Y=(2 \epsilon \gamma+\gamma^{2}+2 \epsilon \mu+ 2 \mu \gamma+ \mu^{2})$
+$$R_{0}=\frac{X+\sqrt{X^{2}-4\beta_{1}\beta{2}N_{1}N_{2}Y}}{2Y}$$
+where $X=(\beta_{1} N_{1}+\beta{2} N_{2})(\epsilon+\mu+\gamma)$ and
+$Y=(2 \epsilon \gamma+\gamma^{2}+2 \epsilon \mu+ 2 \mu \gamma+
+\mu^{2})$
+\subsubsection{Plotting}
 
 \subsection{SEIR Model}
 \textbf{Equations} \newline
+
 $$\frac{dS_{1}}{dt}=\lambda(S_{1}+E_{1}+I_{1}+R_{1}) -\mu  S_{1} - \beta_{1} S_{1}I_{1}  + \epsilon S_{2} -\epsilon S_{1} $$
 $$\frac{dE_{1}}{dt}= -\mu  E_{1} + \beta_{1} S_{1}I_{1}  + \epsilon E_{2} -\epsilon E_{1} -\sigma  E_{1} $$
 $$\frac{dI_{1}}{dt}= \sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
@@ -252,14 +298,14 @@ Similarlly for City 2
 \begin{itemize}
 \item \textbf{For single city in isolation with no transfer rates}\\
   $\epsilon = 0$ , $n=4$ and $m=2$, $E_{1}$ and $I_{1}$ are considered as infective compartments 
-  $$F_{1}=\beta_{1} S_{1} I_{1}, F_{2}=0$$
-  $$V_{1}=-\mu E_{1} -\sigma \E_{1}, V_{2}=\sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
-  Now, calculating $\mathcal{F}$ and $\mathcal{V}$ at DFE \textit{S_{1}=N_{1}} \newline
-\center
+  $$F_{1}= \beta_{1} S_{1} I_{1}, F_{2}=0$$
+  $$V_{1}= -\mu E_{1} -\sigma E_{1} , V_{2} = \sigma E_{1} -\gamma
+  I_{1} -\mu I_{1}$$ Now, calculating $\mathcal{F}$ and $\mathcal{V}$
+  at DFE \textit{$S_{1}=N_{1}$} \newline \center
   \[
 \mathcal{F}=
   \begin{bmatrix}
-    0 & $\beta_{1} N_{1}$ \\
+    0 & \beta_{1} N_{1} \\
     0 &  0 \\
   \end{bmatrix}
 \]
@@ -267,8 +313,8 @@ Similarlly for City 2
 \[
 \mathcal{V}=
   \begin{bmatrix}
-    $ -\sigma -\mu$ & 0  \\
-    $\sigma$ & $-\gamma -\mu$ \\
+     -\sigma -\mu & 0  \\
+    \sigma & -\gamma -\mu \\
   \end{bmatrix}
 \]
 
@@ -279,18 +325,18 @@ $$R_{0}=\frac{\beta_{1} N_{1} \sigma}{(\gamma + \mu)(\mu +\sigma)}$$
   $n=8$ and $m=4$, $E_{1}$,$I_{1}$,$E_{1}$ and $I_{1}$ are considered as infective compartments.
   $$F_{1}=\beta_{1} S_{1} I_{1}, F_{2}=0$$
   $$F_{3}=\beta_{2} S_{2} I_{2}, F_{4}=0$$
-  $$V_{1}=-\mu E_{1}+ \epsilon E_{2} -\epsilon E_{1} -\sigma \E_{1}, V_{2}=\sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
-  $$V_{3}=-\mu E_{2}+ \epsilon E_{1} -\epsilon E_{2} -\sigma \E_{2}, V_{4}=\sigma E_{2} -\gamma I_{2} -\mu I_{2}$$
+  $$V_{1}=-\mu E_{1}+ \epsilon E_{2} -\epsilon E_{1} -\sigma E_{1}, V_{2}=\sigma E_{1} -\gamma I_{1} -\mu I_{1}$$
+  $$V_{3}=-\mu E_{2}+ \epsilon E_{1} -\epsilon E_{2} -\sigma E_{2}, V_{4}=\sigma E_{2} -\gamma I_{2} -\mu I_{2}$$
 
-  Now, calculating $\mathcal{F}$ and $\mathcal{V}$ at DFE \textit{S_{1}=N_{1} and S_{2}=I_{2}} \newline
+  Now, calculating $\mathcal{F}$ and $\mathcal{V}$ at DFE \textit{$S_{1}=N_{1}$ and $S_{2}=I_{2}$} \newline
 
  
  \[
 \mathcal{F}=
   \begin{bmatrix}
-    0 & $\beta_{1} N_{1}$ & 0 &   0 \\
+    0 & \beta_{1} N_{1} & 0 &   0 \\
     0 &  0                & 0 &   0 \\
-    0 &  0                & 0 &  $\beta_{2} N_{2}$ \\
+    0 &  0                & 0 &  \beta_{2} N_{2} \\
     0 &  0                & 0 &   0 \\
   \end{bmatrix}
 \]
@@ -299,14 +345,15 @@ $$R_{0}=\frac{\beta_{1} N_{1} \sigma}{(\gamma + \mu)(\mu +\sigma)}$$
 \[
 \mathcal{V}=
   \begin{bmatrix}
-    $ -\sigma -\mu -\epsilon$  & 0 & $\epsilon $ & 0  \\
-    $\sigma$ & $-\gamma -\mu$  & 0 & 0 \\
-    $\epsilon$ & 0 & $-\sigma -\epsilon -\mu$ & 0 \\
-    0 & 0 & $\sigma$ & $-\mu -\gamma$
+     -\sigma -\mu -\epsilon  & 0 & \epsilon  & 0  \\
+    \sigma & -\gamma -\mu  & 0 & 0 \\
+    \epsilon & 0 & -\sigma -\epsilon -\mu & 0 \\
+    0 & 0 & \sigma & -\mu -\gamma
   \end{bmatrix}
 \]
 
-
-The Spectral radius of $\mathcal{F}\mathcal{V}^{-1}$ was calculated using mathematica.
-$$R_{0}=\frac{X+\sqrt{X^{2}-4\beta_{1}\beta{2}N_{1}N_{2} \sigma^{2} Y}}{2(\gamma+\mu)Y}$$ where $X=(\beta_{1} N_{1} \sigma+\beta{2} N_{2} \sigma))(\epsilon + \mu + \sigma)$ and $Y=(2 \epsilon \mu+\mu^{2}+2 \epsilon \sigma +2 \mu \sigma +\sigma^{2})$
+\end{itemize}
+The Spectral radius of $\mathcal{F}\mathcal{V}^{-1}$ was calculated using sage.
+$$R_{0}=\frac{X+\sqrt{X^{2}-4\beta_{1}\beta{2}N_{1}N_{2} \sigma^{2} Y}}{2(\gamma+\mu)Y}$$ where $X=(\beta_{1} N_{1} \sigma+\beta{2} N_{2} \sigma)(\epsilon + \mu + \sigma)$ and $Y=(2 \epsilon \mu+\mu^{2}+2 \epsilon \sigma +2 \mu \sigma +\sigma^{2})$
+\subsubsection{Plotting}
 \end{document}
