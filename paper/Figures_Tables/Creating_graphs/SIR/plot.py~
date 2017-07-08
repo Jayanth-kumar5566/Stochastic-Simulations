@@ -1,0 +1,10 @@
+import pandas
+import matplotlib.pyplot as plt
+df=pandas.read_csv("values.csv")
+gamma=0.1
+x=['tr_val']
+y=1+(df['total_ro']/gamma)
+yerr=df['std']
+plt.plot(x,[(8+15)/2.]*len(x),'-')
+plt.errorbar(x,y,yerr=yerr,fmt='o')
+plt.show()
