@@ -1,0 +1,16 @@
+================Codes for SIR and SEIR simulation==================
+
+>>>>>>>>>>For SIR 
+1. Change directory into SIR_model/Final/Version_4/Error_bars/
+2. Open error_bars.py and edit to change the parameter values
+3. To change initial conditions open SIR_functions.py and edit it
+4. Run error_bars.py in the terminal. It will produce a output file called values.csv
+5. This file "values.csv" is the intrisic growth rate.
+6. Convert them to the Ro based on the formula suggested in the paper and plot them using excel or look into creating graphs code in paper/Figures_Tabels/
+
+>>>>>>>>>For SEIR
+1. Change directory into SEIR_model/Error_bars_SEIR/
+2. Change directory based on the initial condition you want 
+3. Run error_bars.py
+4. This will produce "values.csv"
+5. Convert them to the Ro based on the formula suggested in the paper and plot them using excel or look into creating graphs code in paper/Figures_Tabels/
